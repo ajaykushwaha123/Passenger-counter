@@ -6,25 +6,33 @@ The layout, sidebar, header, card system, color palette, typography and table st
 
 There are two separate pages:
 
-- **`/` — the Dashboard.** Read-only, meant for the client to view. It only shows the sections that are turned on in the admin panel.
-- **`/admin` — the Admin Panel.** Lets you turn each dashboard card on/off and edit its content (events, notices, personnel, tasks, deadlines, quick links, quote, workforce numbers). Changes are saved with one **Save Changes** click.
-
-There is **no login** on either page — anyone who can reach the app (e.g. anyone on `http://localhost:8080/admin`) can edit it. This is fine for running the app locally on your own machine / a private network, but do **not** expose it on the public internet as-is.
+- **`/` — the Dashboard.** Read-only, public, meant for clients to view. No login. It only shows the sections that are turned on in the admin panel.
+- **`/admin` — the Admin Panel.** Lets you turn each dashboard card on/off and edit its content (events, notices, personnel, tasks, deadlines, quick links, quote, workforce numbers). Changes are saved with one **Save Changes** click. **Protected by a username/password** (HTTP Basic — the browser shows its own built-in login popup, no custom login page needed).
 
 ## Stack
 
-- **Backend:** Java 17, Spring Boot 3 (Spring MVC / `spring-boot-starter-web`)
+- **Backend:** Java 17, Spring Boot 3 (Spring MVC + Spring Security)
 - **Frontend:** Vanilla HTML/CSS/JS served from `src/main/resources/static`, no build step required
 - **Charts:** Chart.js (bundled locally, no external CDN dependency)
-- **Storage:** dashboard content is saved to `data/dashboard-data.json` next to wherever the app is run from — no database needed, and edits survive a restart
+- **Storage:** dashboard content is saved to `data/dashboard-data.json` next to wherever the app is run from — no database needed, and edits survive a restart (as long as that folder isn't wiped — see the Render note below)
+
+## Admin login
+
+Set via environment variables (falls back to `admin` / `changeme123` if unset — **do not leave the defaults in place for anything other than local testing**):
+
+```
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=set-a-real-password-here
+```
 
 ## Project layout
 
 ```
 src/main/java/com/dashboard/
   DashboardApplication.java                Spring Boot entry point
-  controller/DashboardApiController.java   GET /api/dashboard            (read, used by both pages)
-  controller/AdminApiController.java       POST /api/admin/dashboard     (save, used by the admin page)
+  config/SecurityConfig.java               protects /admin and /api/admin/** only
+  controller/DashboardApiController.java   GET /api/dashboard            (read, used by both pages, public)
+  controller/AdminApiController.java       POST /api/admin/dashboard     (save, requires login)
   controller/AdminPageController.java      serves /admin
   service/DashboardConfigService.java      loads/saves data/dashboard-data.json
   model/                                    DTO records (WorkforceStatus, EventItem, ...)
@@ -41,6 +49,7 @@ src/main/resources/
       admin.css
       admin.js
 
+Dockerfile                for cloud deployment (Render, Railway, Fly.io, Cloud Run, ...)
 scripts/
   start.sh               double-click launcher (macOS / Linux)
   start.bat               double-click launcher (Windows)
@@ -61,7 +70,7 @@ java -jar target/business-dashboard-1.0.0.jar
 
 Then open:
 - Dashboard: [http://localhost:8080](http://localhost:8080)
-- Admin panel: [http://localhost:8080/admin](http://localhost:8080/admin)
+- Admin panel: [http://localhost:8080/admin](http://localhost:8080/admin) (default login `admin` / `changeme123` unless you set `ADMIN_USERNAME`/`ADMIN_PASSWORD`)
 
 ## Dashboard sections
 
@@ -76,17 +85,30 @@ Then open:
 
 Each section can be shown/hidden independently from the admin panel; the dashboard grid simply leaves that card's space empty when hidden.
 
-## Giving this to someone else (no hosting required)
+## Deploying for free (so you can just share a link)
 
-You don't need to deploy this anywhere for someone else to use it — Spring Boot's embedded server means the whole app ships as **one runnable `.jar` file**. To hand it to a friend so they can run their own private copy:
+The app is a single Docker image (`Dockerfile` in the repo root), so it deploys on any host that builds from a `Dockerfile` — **Render.com** is the easiest free option (no credit card, connects straight to this GitHub repo):
 
-1. Build it: `mvn clean package` → this produces `target/business-dashboard-1.0.0.jar`.
-2. Copy that single jar file, plus `scripts/start.sh` (Mac/Linux) or `scripts/start.bat` (Windows), into one folder and send that folder (zip it, share via Drive/WhatsApp/USB — whatever's convenient).
-3. Your friend needs **Java 17 or newer** installed ([adoptium.net](https://adoptium.net) has free installers for Windows/Mac/Linux).
-4. They run the script for their OS (`start.bat` on Windows, `start.sh` on Mac/Linux — on Mac/Linux they may need to right-click → "Open" the first time, or run `./start.sh` in a terminal).
-5. Once it says the server started, they open a browser to:
-   - `http://localhost:8080` — the dashboard (for showing clients)
-   - `http://localhost:8080/admin` — the admin panel (for them to edit)
-6. Closing the terminal/command window stops the server. Running the script again picks up right where they left off — edits are saved in a `data` folder created next to the jar.
+1. Push this repo to GitHub (already done if you're reading this from the repo).
+2. Go to [render.com](https://render.com) → sign up/log in → **New +** → **Web Service**.
+3. Connect this GitHub repo. Render will detect the `Dockerfile` automatically — leave build/start commands blank.
+4. Choose the **Free** instance type.
+5. Under **Environment**, add:
+   - `ADMIN_USERNAME` = whatever you want
+   - `ADMIN_PASSWORD` = a real password (don't skip this)
+6. Click **Create Web Service**. First build takes a few minutes.
+7. You'll get a public URL like `https://your-app.onrender.com` — that's the link to give your friend/client. `/admin` on that same URL is the protected admin panel.
 
-Since there's no login, this is meant to run on their own laptop (or a machine only they/their team can reach) — not on a public server.
+**Two honest limitations of the free tier**, so there are no surprises:
+- The free instance sleeps after ~15 minutes of no traffic. The first visit after that takes 30–60 seconds to wake up.
+- The free plan has no persistent disk — the container's filesystem can reset on redeploys/restarts, which would reset anything saved to `data/dashboard-data.json` (i.e. admin edits) back to the built-in defaults. Fine for an occasionally-updated demo dashboard; if you need edits to always stick, that needs a paid disk (~$1/mo on Render) or a real database later.
+
+## Giving this to someone else without hosting it (alternative)
+
+If you'd rather not deploy anywhere, the whole app also runs as **one `.jar` file** on someone's own machine:
+
+1. Build it: `mvn clean package` → produces `target/business-dashboard-1.0.0.jar`.
+2. Copy that jar, plus `scripts/start.sh` (Mac/Linux) or `scripts/start.bat` (Windows), into one folder and send that folder.
+3. They need **Java 17+** installed ([adoptium.net](https://adoptium.net) has free installers).
+4. They run the script for their OS, then open `http://localhost:8080` (dashboard) and `http://localhost:8080/admin` (admin, same login as above).
+5. Data is saved in a `data` folder created next to the jar — persists across restarts since it's their own machine's disk.
