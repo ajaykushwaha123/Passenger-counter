@@ -1,0 +1,193 @@
+.admin-body {
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+.admin-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 28px;
+  background: linear-gradient(180deg, #101a2e, #0c1322 85%);
+  border-bottom: 1px solid var(--panel-border);
+}
+
+.admin-brand { display: flex; align-items: center; gap: 12px; }
+.admin-title { font-family: var(--font-head); font-weight: 700; font-size: 16px; }
+.admin-subtitle { font-size: 12px; color: var(--text-muted); }
+
+.admin-actions { display: flex; align-items: center; gap: 12px; }
+
+.save-status {
+  font-size: 12px;
+  color: var(--accent-green);
+  font-weight: 600;
+  min-width: 90px;
+  text-align: right;
+}
+.save-status.error { color: var(--accent-red); }
+
+.btn {
+  border: none;
+  border-radius: 9px;
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+.btn-primary { background: var(--accent-gold); color: #0b1220; }
+.btn-primary:hover { filter: brightness(1.08); }
+.btn-ghost {
+  background: rgba(255,255,255,0.06);
+  color: var(--text-secondary);
+  border: 1px solid var(--panel-border);
+}
+.btn-ghost:hover { color: var(--text-primary); }
+
+.admin-main {
+  padding: 24px 28px 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 18px;
+  align-items: start;
+}
+
+.loading { color: var(--text-muted); padding: 20px; }
+
+.admin-card {
+  background: linear-gradient(180deg, var(--panel), var(--panel-2));
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius);
+  padding: 16px 18px 18px;
+}
+
+.admin-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.admin-card-head h3 {
+  margin: 0;
+  font-family: var(--font-head);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+/* Toggle switch */
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 22px;
+  flex-shrink: 0;
+}
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle-track {
+  position: absolute; inset: 0;
+  background: rgba(255,255,255,0.12);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.toggle-track::before {
+  content: '';
+  position: absolute;
+  width: 16px; height: 16px;
+  left: 3px; top: 3px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.15s;
+}
+.toggle input:checked + .toggle-track { background: var(--accent-green); }
+.toggle input:checked + .toggle-track::before { transform: translateX(18px); }
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.field-row label {
+  display: block;
+  font-size: 10.5px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.field-row input,
+.field-row textarea,
+.field-row select {
+  width: 100%;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+textarea,
+select {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--panel-border);
+  color: var(--text-primary);
+  border-radius: 7px;
+  padding: 8px 10px;
+  font-size: 12.5px;
+  font-family: var(--font-body);
+}
+textarea { resize: vertical; min-height: 44px; }
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--accent-gold);
+}
+
+.item-row {
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  padding: 10px 10px 4px;
+  margin-bottom: 10px;
+  background: rgba(255,255,255,0.02);
+}
+
+.item-row-top {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: -4px;
+}
+
+.remove-btn {
+  border: none;
+  background: transparent;
+  color: var(--accent-red);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+.remove-btn:hover { text-decoration: underline; }
+
+.add-btn {
+  width: 100%;
+  border: 1px dashed var(--panel-border);
+  background: transparent;
+  color: var(--text-secondary);
+  border-radius: 9px;
+  padding: 9px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 4px;
+}
+.add-btn:hover { color: var(--accent-gold); border-color: var(--accent-gold); }
+
+@media (max-width: 600px) {
+  .admin-topbar { flex-wrap: wrap; }
+  .field-row { grid-template-columns: 1fr; }
+}

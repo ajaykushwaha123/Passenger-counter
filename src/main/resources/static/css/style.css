@@ -210,6 +210,7 @@ ul { list-style: none; margin: 0; padding: 0; }
   padding: 16px 18px 18px;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
 }
+.card[hidden] { display: none !important; }
 
 .card-head {
   display: flex;

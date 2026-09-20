@@ -1,8 +1,10 @@
 package com.dashboard.model;
 
 import java.util.List;
+import java.util.Map;
 
-public record DashboardData(
+public record DashboardConfig(
+        Map<String, Boolean> visibility,
         WorkforceStatus workforce,
         List<Appointment> keyPersonnel,
         List<TaskProgress> projectStatus,

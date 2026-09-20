@@ -1,14 +1,56 @@
 package com.dashboard.service;
 
 import com.dashboard.model.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
-public class DashboardDataService {
+public class DashboardConfigService {
 
-    public DashboardData getDashboardData() {
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final Path dataFile = Path.of("data", "dashboard-data.json");
+
+    private volatile DashboardConfig current;
+
+    @PostConstruct
+    public void init() throws IOException {
+        if (Files.exists(dataFile)) {
+            current = objectMapper.readValue(dataFile.toFile(), DashboardConfig.class);
+        } else {
+            current = defaultConfig();
+            persist();
+        }
+    }
+
+    public DashboardConfig get() {
+        return current;
+    }
+
+    public synchronized DashboardConfig update(DashboardConfig newConfig) throws IOException {
+        current = newConfig;
+        persist();
+        return current;
+    }
+
+    private void persist() throws IOException {
+        Files.createDirectories(dataFile.getParent());
+        objectMapper.writerWithDefaultPrettyPrinter().writeValue(dataFile.toFile(), current);
+    }
+
+    private DashboardConfig defaultConfig() {
+        Map<String, Boolean> visibility = new LinkedHashMap<>();
+        for (String key : List.of("workforce", "events", "schedule", "personnel", "notices", "tasks", "countdown", "quicklinks", "quote")) {
+            visibility.put(key, true);
+        }
+
         WorkforceStatus workforce = new WorkforceStatus(142, 128, 8, 6, 0, 0);
 
         List<Appointment> keyPersonnel = List.of(
@@ -70,7 +112,8 @@ public class DashboardDataService {
 
         Quote quote = new Quote("Discipline today, readiness tomorrow.", "Team Motto");
 
-        return new DashboardData(
+        return new DashboardConfig(
+                visibility,
                 workforce,
                 keyPersonnel,
                 projectStatus,

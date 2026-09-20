@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Admin</title>
+  <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/admin/admin.css" />
+</head>
+<body class="admin-body">
+  <header class="admin-topbar">
+    <div class="admin-brand">
+      <div class="brand-mark">N</div>
+      <div>
+        <div class="admin-title">Dashboard Admin</div>
+        <div class="admin-subtitle">Control what your client sees</div>
+      </div>
+    </div>
+    <div class="admin-actions">
+      <span id="save-status" class="save-status"></span>
+      <a href="/" target="_blank" class="btn btn-ghost">View Dashboard &#8599;</a>
+      <button id="save-btn" class="btn btn-primary">Save Changes</button>
+    </div>
+  </header>
+
+  <main class="admin-main" id="admin-sections">
+    <p class="loading">Loading dashboard data&hellip;</p>
+  </main>
+
+  <script src="/admin/admin.js"></script>
+</body>
+</html>

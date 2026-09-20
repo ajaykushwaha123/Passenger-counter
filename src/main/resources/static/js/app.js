@@ -153,6 +153,14 @@ function renderQuote(q) {
   document.getElementById('quote-author').textContent = `— ${q.author}`;
 }
 
+function applyVisibility(visibility) {
+  document.querySelectorAll('[data-section]').forEach(el => {
+    const key = el.getAttribute('data-section');
+    const visible = !visibility || visibility[key] !== false;
+    el.hidden = !visible;
+  });
+}
+
 async function loadDashboard() {
   try {
     const res = await fetch('/api/dashboard');
@@ -166,6 +174,7 @@ async function loadDashboard() {
     renderCountdown(data.deadlines);
     renderQuickLinks(data.quickLinks);
     renderQuote(data.quoteOfTheDay);
+    applyVisibility(data.visibility);
   } catch (err) {
     console.error('Failed to load dashboard data', err);
   }
