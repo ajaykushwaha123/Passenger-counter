@@ -1,21 +1,59 @@
-# cMLr3asK
+# Business Dashboard
 
-Quick start:
+A modern, responsive business operations dashboard built with **Java + Spring Boot**, served as a static **HTML / CSS / JavaScript** front end with **Chart.js**.
+
+The layout, sidebar, header, card system, color palette, typography and table styling are modeled after a professional ops-dashboard reference design, adapted for general business use.
+
+## Stack
+
+- **Backend:** Java 17, Spring Boot 3 (Spring MVC / `spring-boot-starter-web`), exposing a single JSON API
+- **Frontend:** Vanilla HTML/CSS/JS served from `src/main/resources/static`, no build step required
+- **Charts:** Chart.js (bundled locally, no external CDN dependency)
+
+## Project layout
 
 ```
-$ npm install
-$ npm start
-````
+src/main/java/com/dashboard/
+  DashboardApplication.java        Spring Boot entry point
+  controller/DashboardApiController.java   GET /api/dashboard
+  service/DashboardDataService.java        sample dashboard data
+  model/                            DTO records (WorkforceStatus, EventItem, ...)
 
-Head over to https://vitejs.dev/ to learn more about using vite
-## About Scrimba
+src/main/resources/
+  application.properties
+  static/
+    index.html
+    css/style.css
+    js/app.js
+    js/chart.umd.js
+```
 
-At Scrimba our goal is to create the best possible coding school at the cost of a gym membership! 💜
-If we succeed with this, it will give anyone who wants to become a software developer a realistic shot at succeeding, regardless of where they live and the size of their wallets 🎉
-The Frontend Developer Career Path aims to teach you everything you need to become a Junior Developer, or you could take a deep-dive with one of our advanced courses 🚀
+## Running locally
 
-- [Our courses](https://scrimba.com/allcourses)
-- [The Frontend Career Path](https://scrimba.com/learn/frontend)
-- [Become a Scrimba Pro member](https://scrimba.com/pricing)
+```
+mvn spring-boot:run
+```
 
-Happy Coding!
+or build and run the jar:
+
+```
+mvn clean package
+java -jar target/business-dashboard-1.0.0.jar
+```
+
+The dashboard is served at [http://localhost:8080](http://localhost:8080).
+
+## Dashboard sections
+
+- **Workforce Status** — headcount summary with a Chart.js donut chart and legend
+- **Upcoming Events** / **Today's Schedule** — data tables
+- **Key Personnel** — role/name list
+- **Announcements** — priority-tagged notices
+- **Project Status** — progress bars
+- **Deadlines** — live day-countdown tiles
+- **Quick Links** — icon shortcut grid
+- **Quote of the Day**
+
+All dashboard content is served from `GET /api/dashboard` and rendered client-side, so swapping in real data only requires changing `DashboardDataService` (or wiring it to a real data source/repository).
+
+The page is fully responsive, collapsing from a 3-column desktop grid down to a single-column mobile layout.
