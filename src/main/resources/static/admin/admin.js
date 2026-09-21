@@ -17,7 +17,7 @@ const SECTIONS = [
   {
     key: 'events', title: 'Upcoming Events', type: 'list', dataKey: 'upcomingEvents', itemLabel: 'Event',
     fields: [
-      { name: 'date', label: 'Date', type: 'text', placeholder: '18 Sep 2026' },
+      { name: 'date', label: 'Date', type: 'date' },
       { name: 'name', label: 'Event Name', type: 'text' },
       { name: 'location', label: 'Location', type: 'text' },
       { name: 'tag', label: 'Color Tag', type: 'select', options: TAG_COLORS },
@@ -56,7 +56,7 @@ const SECTIONS = [
     key: 'countdown', title: 'Deadlines', type: 'list', dataKey: 'deadlines', itemLabel: 'Deadline',
     fields: [
       { name: 'label', label: 'Label', type: 'text' },
-      { name: 'date', label: 'Target Date', type: 'text', placeholder: '21 Sep 2026' },
+      { name: 'date', label: 'Target Date', type: 'date' },
       { name: 'tag', label: 'Color', type: 'select', options: TAG_COLORS },
     ],
   },
@@ -76,6 +76,18 @@ const SECTIONS = [
     ],
   },
 ];
+
+const PICKER_ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+/** Returns yyyy-mm-dd for the date picker, or '' if the stored text isn't a date. */
+function toPickerDate(value) {
+  if (!value) return '';
+  if (PICKER_ISO_DATE.test(value)) return value;
+  const parsed = new Date(value);
+  if (isNaN(parsed)) return '';
+  const pad = n => String(n).padStart(2, '0');
+  return `${parsed.getFullYear()}-${pad(parsed.getMonth() + 1)}-${pad(parsed.getDate())}`;
+}
 
 function buildField(f, value) {
   const wrap = document.createElement('div');
@@ -101,6 +113,13 @@ function buildField(f, value) {
       if (opt === value) o.selected = true;
       input.appendChild(o);
     });
+  } else if (f.type === 'date') {
+    const picker = toPickerDate(value);
+    input = document.createElement('input');
+    // Text the picker can't represent stays an editable text box rather than
+    // being blanked out and lost on the next save.
+    input.type = picker || !value ? 'date' : 'text';
+    input.value = picker || value || '';
   } else {
     input = document.createElement('input');
     input.type = f.type === 'number' ? 'number' : 'text';

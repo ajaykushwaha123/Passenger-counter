@@ -73,11 +73,11 @@ public class DashboardConfigService {
         );
 
         List<EventItem> upcomingEvents = List.of(
-                new EventItem("18 Sep 2026", "Board Meeting", "Conference Hall", "yellow"),
-                new EventItem("21 Sep 2026", "Annual Audit (HQ)", "Finance Wing", "yellow"),
-                new EventItem("25 Sep 2026", "Technical Training Workshop", "Training Area", "yellow"),
-                new EventItem("30 Sep 2026", "Vendor Contract Review", "Workshop", "aqua"),
-                new EventItem("03 Oct 2026", "Town Hall Meet", "Main Grounds", "blue")
+                new EventItem("2026-09-18", "Board Meeting", "Conference Hall", "yellow"),
+                new EventItem("2026-09-21", "Annual Audit (HQ)", "Finance Wing", "yellow"),
+                new EventItem("2026-09-25", "Technical Training Workshop", "Training Area", "yellow"),
+                new EventItem("2026-09-30", "Vendor Contract Review", "Workshop", "aqua"),
+                new EventItem("2026-10-03", "Town Hall Meet", "Main Grounds", "blue")
         );
 
         List<Notice> announcements = List.of(
@@ -97,9 +97,9 @@ public class DashboardConfigService {
         );
 
         List<CountdownItem> deadlines = List.of(
-                new CountdownItem("Annual Audit", "21 Sep 2026", "red"),
-                new CountdownItem("Sales Summit", "03 Oct 2026", "blue"),
-                new CountdownItem("Founders' Day", "01 Nov 2026", "aqua")
+                new CountdownItem("Annual Audit", "2026-09-21", "red"),
+                new CountdownItem("Sales Summit", "2026-10-03", "blue"),
+                new CountdownItem("Founders' Day", "2026-11-01", "aqua")
         );
 
         List<QuickLink> quickLinks = List.of(

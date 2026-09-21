@@ -76,31 +76,31 @@
     ],
     "upcomingEvents": [
         {
-            "date": "18 Sep 2026",
+            "date": "2026-09-18",
             "name": "Board Meeting",
             "location": "Conference Hall",
             "tag": "yellow"
         },
         {
-            "date": "21 Sep 2026",
+            "date": "2026-09-21",
             "name": "Annual Audit (HQ)",
             "location": "Finance Wing",
             "tag": "yellow"
         },
         {
-            "date": "25 Sep 2026",
+            "date": "2026-09-25",
             "name": "Technical Training Workshop",
             "location": "Training Area",
             "tag": "yellow"
         },
         {
-            "date": "30 Sep 2026",
+            "date": "2026-09-30",
             "name": "Vendor Contract Review",
             "location": "Workshop",
             "tag": "aqua"
         },
         {
-            "date": "03 Oct 2026",
+            "date": "2026-10-03",
             "name": "Town Hall Meet",
             "location": "Main Grounds",
             "tag": "blue"
@@ -158,17 +158,17 @@
     "deadlines": [
         {
             "label": "Annual Audit",
-            "date": "21 Sep 2026",
+            "date": "2026-09-21",
             "tag": "red"
         },
         {
             "label": "Sales Summit",
-            "date": "03 Oct 2026",
+            "date": "2026-10-03",
             "tag": "blue"
         },
         {
             "label": "Founders' Day",
-            "date": "01 Nov 2026",
+            "date": "2026-11-01",
             "tag": "aqua"
         }
     ],

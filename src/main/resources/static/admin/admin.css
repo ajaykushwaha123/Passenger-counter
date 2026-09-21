@@ -156,6 +156,11 @@ select {
   font-family: var(--font-body);
 }
 textarea { resize: vertical; min-height: 44px; }
+
+/* Renders the native calendar icon and popup for a dark background. */
+input[type="date"] { color-scheme: dark; cursor: pointer; }
+input[type="date"]::-webkit-calendar-picker-indicator { cursor: pointer; opacity: 0.75; }
+input[type="date"]:hover::-webkit-calendar-picker-indicator { opacity: 1; }
 input:focus, textarea:focus, select:focus {
   outline: none;
   border-color: var(--accent-gold);

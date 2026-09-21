@@ -115,7 +115,7 @@ function renderEvents(events) {
   const tbody = document.querySelector('#events-table tbody');
   tbody.innerHTML = events.map(e => `
     <tr style="--row-color:${COLORS[e.tag] || COLORS.blue}">
-      <td>${e.date}</td>
+      <td>${formatDate(e.date)}</td>
       <td class="event-name">${e.name}</td>
       <td>${e.location}</td>
     </tr>
@@ -164,10 +164,35 @@ function renderProgress(list) {
   });
 }
 
+const ISO_DATE = /^(\d{4})-(\d{2})-(\d{2})$/;
+
+/**
+ * Dates are stored as yyyy-mm-dd (what the admin date picker produces), but
+ * older dashboards saved free text like "18 Sep 2026", so both are accepted.
+ * ISO strings are built as a local date - new Date("2026-09-18") would be UTC
+ * midnight, which lands on the previous day west of Greenwich.
+ */
+function parseDate(value) {
+  const iso = ISO_DATE.exec(value);
+  if (iso) return new Date(Number(iso[1]), Number(iso[2]) - 1, Number(iso[3]));
+  return new Date(value);
+}
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+/** Spelled out here so every month is three letters and the viewer's locale can't change it. */
+function formatDate(value) {
+  const iso = ISO_DATE.exec(value);
+  if (!iso) return value;
+  return `${iso[3]} ${MONTHS[Number(iso[2]) - 1]} ${iso[1]}`;
+}
+
 function daysUntil(dateStr) {
-  const target = new Date(dateStr);
-  const now = new Date();
-  const diff = Math.ceil((target - now) / (1000 * 60 * 60 * 24));
+  const target = parseDate(dateStr);
+  if (isNaN(target)) return 0;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const diff = Math.ceil((target - today) / (1000 * 60 * 60 * 24));
   return Math.max(diff, 0);
 }
 
@@ -178,7 +203,7 @@ function renderCountdown(list) {
       <span class="days" data-days="${daysUntil(c.date)}">0</span>
       <span class="unit">DAYS</span>
       <span class="label">${c.label}</span>
-      <span class="date">${c.date}</span>
+      <span class="date">${formatDate(c.date)}</span>
     </div>
   `).join('');
 
