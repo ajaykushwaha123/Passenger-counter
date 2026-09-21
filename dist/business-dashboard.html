@@ -99,6 +99,8 @@ ul { list-style: none; margin: 0; padding: 0; }
 
 .nav-item svg { flex-shrink: 0; }
 
+.nav-item[hidden] { display: none; }
+
 .nav-item:hover {
   background: rgba(255, 255, 255, 0.05);
   color: var(--text-secondary);
@@ -689,23 +691,23 @@ input:focus, textarea:focus, select:focus {
         </svg>
       </div>
       <nav class="sidebar-nav">
-        <a href="#" class="nav-item active" data-tip="Dashboard">
+        <a href="#" class="nav-item active" data-tip="Dashboard" data-scroll-top>
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>
           <span>Dashboard</span>
         </a>
-        <a href="#" class="nav-item" data-tip="Analytics">
+        <a href="#" class="nav-item" data-tip="Analytics" data-scroll-to="workforce">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10M12 20V4M20 20v-7"/></svg>
           <span>Analytics</span>
         </a>
-        <a href="#" class="nav-item" data-tip="Team">
+        <a href="#" class="nav-item" data-tip="Team" data-scroll-to="personnel">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><circle cx="17.5" cy="8.5" r="2.5"/><path d="M16 14.8c2.6.3 4.4 2 5 5.2"/></svg>
           <span>Team</span>
         </a>
-        <a href="#" class="nav-item" data-tip="Reports">
+        <a href="#" class="nav-item" data-tip="Reports" data-scroll-to="tasks">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2h9l5 5v15H6z"/><path d="M15 2v5h5"/><path d="M9 13h6M9 17h6"/></svg>
           <span>Reports</span>
         </a>
-        <a href="#" class="nav-item" data-tip="Settings" data-open-admin>
+        <a href="/admin" class="nav-item" data-tip="Settings" data-open-admin>
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 13a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V19a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.6V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9c.2.7.8 1.2 1.6 1.4H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
           <span>Settings</span>
         </a>
@@ -1439,11 +1441,42 @@ function renderQuote(q) {
   document.getElementById('quote-author').textContent = `— ${q.author}`;
 }
 
+function isVisible(visibility, key) {
+  return !visibility || visibility[key] !== false;
+}
+
 function applyVisibility(visibility) {
   document.querySelectorAll('[data-section]').forEach(el => {
-    const key = el.getAttribute('data-section');
-    const visible = !visibility || visibility[key] !== false;
-    el.hidden = !visible;
+    el.hidden = !isVisible(visibility, el.getAttribute('data-section'));
+  });
+  // A sidebar link to a card that is switched off would lead nowhere, so hide it too.
+  document.querySelectorAll('[data-scroll-to]').forEach(el => {
+    el.hidden = !isVisible(visibility, el.getAttribute('data-scroll-to'));
+  });
+}
+
+function setActiveNav(item) {
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  item.classList.add('active');
+}
+
+function setupSidebarNav() {
+  document.querySelectorAll('[data-scroll-to]').forEach(item => {
+    item.addEventListener('click', event => {
+      event.preventDefault();
+      const target = document.querySelector(`[data-section="${item.getAttribute('data-scroll-to')}"]`);
+      if (!target || target.hidden) return;
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setActiveNav(item);
+    });
+  });
+
+  document.querySelectorAll('[data-scroll-top]').forEach(item => {
+    item.addEventListener('click', event => {
+      event.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setActiveNav(item);
+    });
   });
 }
 
@@ -1467,6 +1500,7 @@ async function loadDashboard() {
 }
 
 startClock();
+setupSidebarNav();
 loadDashboard();
 
 </script>

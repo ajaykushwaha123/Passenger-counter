@@ -156,11 +156,42 @@ function renderQuote(q) {
   document.getElementById('quote-author').textContent = `— ${q.author}`;
 }
 
+function isVisible(visibility, key) {
+  return !visibility || visibility[key] !== false;
+}
+
 function applyVisibility(visibility) {
   document.querySelectorAll('[data-section]').forEach(el => {
-    const key = el.getAttribute('data-section');
-    const visible = !visibility || visibility[key] !== false;
-    el.hidden = !visible;
+    el.hidden = !isVisible(visibility, el.getAttribute('data-section'));
+  });
+  // A sidebar link to a card that is switched off would lead nowhere, so hide it too.
+  document.querySelectorAll('[data-scroll-to]').forEach(el => {
+    el.hidden = !isVisible(visibility, el.getAttribute('data-scroll-to'));
+  });
+}
+
+function setActiveNav(item) {
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  item.classList.add('active');
+}
+
+function setupSidebarNav() {
+  document.querySelectorAll('[data-scroll-to]').forEach(item => {
+    item.addEventListener('click', event => {
+      event.preventDefault();
+      const target = document.querySelector(`[data-section="${item.getAttribute('data-scroll-to')}"]`);
+      if (!target || target.hidden) return;
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setActiveNav(item);
+    });
+  });
+
+  document.querySelectorAll('[data-scroll-top]').forEach(item => {
+    item.addEventListener('click', event => {
+      event.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setActiveNav(item);
+    });
   });
 }
 
@@ -184,4 +215,5 @@ async function loadDashboard() {
 }
 
 startClock();
+setupSidebarNav();
 loadDashboard();
