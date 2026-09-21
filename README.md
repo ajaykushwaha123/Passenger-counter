@@ -9,6 +9,11 @@ There are two separate pages:
 - **`/` — the Dashboard.** Read-only, public, meant for clients to view. No login. It only shows the sections that are turned on in the admin panel.
 - **`/admin` — the Admin Panel.** Lets you turn each dashboard card on/off and edit its content (events, notices, personnel, tasks, deadlines, quick links, quote, workforce numbers). Changes are saved with one **Save Changes** click. **Protected by a username/password** (HTTP Basic — the browser shows its own built-in login popup, no custom login page needed).
 
+It ships in two forms, from the same source:
+
+1. **`dist/business-dashboard.html`** — a single offline file you double-click to open. No server, no Java, no internet. See *Offline single-file build* below.
+2. **The Spring Boot app** — a real server you can run locally or deploy, with the admin panel behind a login.
+
 ## Stack
 
 - **Backend:** Java 17, Spring Boot 3 (Spring MVC + Spring Security)
@@ -84,6 +89,23 @@ Then open:
 - **Quote of the Day**
 
 Each section can be shown/hidden independently from the admin panel; the dashboard grid simply leaves that card's space empty when hidden.
+
+## Offline single-file build (easiest way to share it)
+
+`dist/business-dashboard.html` is the **whole dashboard + admin panel in one file** — no server, no Java, no internet, no install. Double-click it and it opens in the browser; bookmark it and it behaves like any other saved link.
+
+- The dashboard opens first (that's what clients see).
+- The **Settings** icon in the sidebar opens the admin panel; **View Dashboard** goes back.
+- Saving writes to the browser's `localStorage`, so edits survive closing the browser and restarting the PC. They're stored per-browser on that machine — a different browser (or a cleared browsing history) starts again from the defaults.
+- The admin panel has a **Reset to defaults** button to wipe local edits.
+
+Rebuild it after changing any markup, CSS or JS:
+
+```
+python3 offline/build.py
+```
+
+The build inlines `static/css/style.css`, `static/admin/admin.css`, `chart.umd.js`, `app.js` and `admin.js` into a single HTML file, plus `offline/offline-boot.js`, which answers the app's own `/api/dashboard` and `/api/admin/dashboard` calls from `localStorage` instead of from the backend. That means the offline build and the Spring Boot build share exactly the same markup and render logic — only the storage layer differs. `offline/default-data.json` holds the starting content and mirrors the defaults in `DashboardConfigService`.
 
 ## Deploying for free (so you can just share a link)
 

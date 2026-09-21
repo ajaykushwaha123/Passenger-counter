@@ -1,0 +1,206 @@
+{
+    "visibility": {
+        "workforce": true,
+        "events": true,
+        "schedule": true,
+        "personnel": true,
+        "notices": true,
+        "tasks": true,
+        "countdown": true,
+        "quicklinks": true,
+        "quote": true
+    },
+    "workforce": {
+        "totalSanctioned": 142,
+        "present": 128,
+        "onLeave": 8,
+        "onFieldDuty": 6,
+        "remote": 0,
+        "vacant": 0
+    },
+    "keyPersonnel": [
+        {
+            "role": "Chief Executive Officer",
+            "name": "A. Whitfield"
+        },
+        {
+            "role": "Chief Operating Officer",
+            "name": "R. Menon"
+        },
+        {
+            "role": "Finance Director",
+            "name": "S. Kapoor"
+        },
+        {
+            "role": "Head of Product",
+            "name": "P. Alvarez"
+        },
+        {
+            "role": "Head of Engineering",
+            "name": "N. Reddy"
+        },
+        {
+            "role": "HR Manager",
+            "name": "L. Iyer"
+        },
+        {
+            "role": "IT / Systems Lead",
+            "name": "S. Gurung"
+        },
+        {
+            "role": "Compliance Officer",
+            "name": "A. Khan"
+        }
+    ],
+    "projectStatus": [
+        {
+            "label": "Client Onboarding",
+            "percent": 80
+        },
+        {
+            "label": "Platform Migration",
+            "percent": 65
+        },
+        {
+            "label": "Q3 Sales Targets",
+            "percent": 90
+        },
+        {
+            "label": "Documentation",
+            "percent": 70
+        },
+        {
+            "label": "Infrastructure Upgrade",
+            "percent": 60
+        }
+    ],
+    "upcomingEvents": [
+        {
+            "date": "18 Sep 2026",
+            "name": "Board Meeting",
+            "location": "Conference Hall",
+            "tag": "amber"
+        },
+        {
+            "date": "21 Sep 2026",
+            "name": "Annual Audit (HQ)",
+            "location": "Finance Wing",
+            "tag": "amber"
+        },
+        {
+            "date": "25 Sep 2026",
+            "name": "Technical Training Workshop",
+            "location": "Training Area",
+            "tag": "amber"
+        },
+        {
+            "date": "30 Sep 2026",
+            "name": "Vendor Contract Review",
+            "location": "Workshop",
+            "tag": "teal"
+        },
+        {
+            "date": "03 Oct 2026",
+            "name": "Town Hall Meet",
+            "location": "Main Grounds",
+            "tag": "blue"
+        }
+    ],
+    "announcements": [
+        {
+            "text": "Submission of Q3 returns by 20 Sep 2026",
+            "priority": "red"
+        },
+        {
+            "text": "All teams to update leave plans for Oct 2026",
+            "priority": "amber"
+        },
+        {
+            "text": "Asset maintenance logs to be completed by 18 Sep 2026",
+            "priority": "amber"
+        },
+        {
+            "text": "Wellness check-up camp on 22 Sep 2026",
+            "priority": "green"
+        },
+        {
+            "text": "Dress code review next week - maintain formal attire",
+            "priority": "green"
+        }
+    ],
+    "todaySchedule": [
+        {
+            "time": "09:00 - 09:30",
+            "activity": "Morning Stand-up",
+            "venue": "Conference Hall"
+        },
+        {
+            "time": "10:00 - 11:30",
+            "activity": "Product Review",
+            "venue": "Tech Workshop"
+        },
+        {
+            "time": "12:00 - 13:00",
+            "activity": "Ops Sync Meeting",
+            "venue": "Ops Room"
+        },
+        {
+            "time": "14:00 - 15:30",
+            "activity": "Training Planning",
+            "venue": "Conference Hall"
+        },
+        {
+            "time": "16:00 - 17:00",
+            "activity": "Admin Review",
+            "venue": "CEO Office"
+        }
+    ],
+    "deadlines": [
+        {
+            "label": "Annual Audit",
+            "date": "21 Sep 2026",
+            "tag": "red"
+        },
+        {
+            "label": "Sales Summit",
+            "date": "03 Oct 2026",
+            "tag": "blue"
+        },
+        {
+            "label": "Founders' Day",
+            "date": "01 Nov 2026",
+            "tag": "green"
+        }
+    ],
+    "quickLinks": [
+        {
+            "label": "Company Orders",
+            "icon": "file",
+            "href": "#"
+        },
+        {
+            "label": "Leave Portal",
+            "icon": "plane",
+            "href": "#"
+        },
+        {
+            "label": "SOPs / Manuals",
+            "icon": "book",
+            "href": "#"
+        },
+        {
+            "label": "Forms & Formats",
+            "icon": "clipboard",
+            "href": "#"
+        },
+        {
+            "label": "Emergency Contacts",
+            "icon": "phone",
+            "href": "#"
+        }
+    ],
+    "quoteOfTheDay": {
+        "text": "Discipline today, readiness tomorrow.",
+        "author": "Team Motto"
+    }
+}

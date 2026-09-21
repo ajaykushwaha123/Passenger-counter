@@ -15,6 +15,8 @@ const ICONS = {
   phone: '<path d="M4 5c0-1 1-2 2-2h2l2 5-2 2c1 3 3 5 6 6l2-2 5 2v2c0 1-1 2-2 2C10 20 4 14 4 5Z"/>',
 };
 
+let workforceChart = null;
+
 function svgIcon(name) {
   return `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">${ICONS[name] || ICONS.file}</svg>`;
 }
@@ -54,7 +56,8 @@ function renderWorkforce(wf) {
   `).join('');
 
   const ctx = document.getElementById('workforceChart');
-  new Chart(ctx, {
+  if (workforceChart) workforceChart.destroy();
+  workforceChart = new Chart(ctx, {
     type: 'doughnut',
     data: {
       labels: segments.map(s => s.label),
