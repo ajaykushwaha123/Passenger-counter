@@ -79,25 +79,25 @@
             "date": "18 Sep 2026",
             "name": "Board Meeting",
             "location": "Conference Hall",
-            "tag": "amber"
+            "tag": "yellow"
         },
         {
             "date": "21 Sep 2026",
             "name": "Annual Audit (HQ)",
             "location": "Finance Wing",
-            "tag": "amber"
+            "tag": "yellow"
         },
         {
             "date": "25 Sep 2026",
             "name": "Technical Training Workshop",
             "location": "Training Area",
-            "tag": "amber"
+            "tag": "yellow"
         },
         {
             "date": "30 Sep 2026",
             "name": "Vendor Contract Review",
             "location": "Workshop",
-            "tag": "teal"
+            "tag": "aqua"
         },
         {
             "date": "03 Oct 2026",
@@ -113,19 +113,19 @@
         },
         {
             "text": "All teams to update leave plans for Oct 2026",
-            "priority": "amber"
+            "priority": "yellow"
         },
         {
             "text": "Asset maintenance logs to be completed by 18 Sep 2026",
-            "priority": "amber"
+            "priority": "yellow"
         },
         {
             "text": "Wellness check-up camp on 22 Sep 2026",
-            "priority": "green"
+            "priority": "aqua"
         },
         {
             "text": "Dress code review next week - maintain formal attire",
-            "priority": "green"
+            "priority": "aqua"
         }
     ],
     "todaySchedule": [
@@ -169,7 +169,7 @@
         {
             "label": "Founders' Day",
             "date": "01 Nov 2026",
-            "tag": "green"
+            "tag": "aqua"
         }
     ],
     "quickLinks": [

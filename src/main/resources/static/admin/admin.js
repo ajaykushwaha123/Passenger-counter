@@ -1,4 +1,5 @@
-const TAG_COLORS = ['blue', 'teal', 'green', 'amber', 'red', 'gray'];
+// Fixed order - validated for colour-blind separation against the dashboard surface.
+const TAG_COLORS = ['blue', 'aqua', 'yellow', 'magenta', 'violet', 'red', 'gray'];
 const ICON_OPTIONS = ['file', 'plane', 'book', 'clipboard', 'phone'];
 
 const SECTIONS = [
@@ -88,7 +89,12 @@ function buildField(f, value) {
     input.value = value ?? '';
   } else if (f.type === 'select') {
     input = document.createElement('select');
-    f.options.forEach(opt => {
+    // A value saved before this option list changed must stay selectable,
+    // otherwise saving would silently rewrite it to the first option.
+    const options = value && f.options.indexOf(value) === -1
+      ? [value].concat(f.options)
+      : f.options;
+    options.forEach(opt => {
       const o = document.createElement('option');
       o.value = opt;
       o.textContent = opt;

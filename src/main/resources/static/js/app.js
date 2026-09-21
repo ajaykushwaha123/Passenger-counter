@@ -1,11 +1,44 @@
+// Dark-surface palette, validated for lightness band, chroma, colour-blind
+// separation and contrast. green/teal/amber are kept as aliases so dashboards
+// saved before this palette landed still render.
 const COLORS = {
-  green: '#34d399',
-  amber: '#f5a524',
-  red: '#f16063',
-  blue: '#4f8ef7',
-  teal: '#2dd4bf',
-  gray: '#5b6577',
+  blue: '#3987e5',
+  aqua: '#199e70',
+  teal: '#199e70',
+  green: '#199e70',
+  yellow: '#c98500',
+  amber: '#c98500',
+  magenta: '#d55181',
+  violet: '#9085e9',
+  red: '#e66767',
+  gray: '#6b7488',
 };
+
+const CARD_SURFACE = '#141d31';
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const LINK_HUES = [
+  { color: '#3987e5', wash: 'rgba(57, 135, 229, 0.14)' },
+  { color: '#199e70', wash: 'rgba(25, 158, 112, 0.14)' },
+  { color: '#c98500', wash: 'rgba(201, 133, 0, 0.14)' },
+  { color: '#d55181', wash: 'rgba(213, 81, 129, 0.14)' },
+  { color: '#9085e9', wash: 'rgba(144, 133, 233, 0.14)' },
+];
+
+function animateNumber(el, to, suffix) {
+  const tail = suffix || '';
+  if (REDUCED_MOTION) {
+    el.textContent = to + tail;
+    return;
+  }
+  const duration = 900;
+  const start = performance.now();
+  requestAnimationFrame(function step(now) {
+    const t = Math.min((now - start) / duration, 1);
+    el.textContent = Math.round(to * (1 - Math.pow(1 - t, 3))) + tail;
+    if (t < 1) requestAnimationFrame(step);
+  });
+}
 
 const ICONS = {
   file: '<path d="M6 2h9l5 5v15H6z"/><path d="M15 2v5h5"/>',
@@ -28,10 +61,10 @@ function startClock() {
   function tick() {
     const now = new Date();
     dateEl.textContent = now.toLocaleDateString(undefined, { weekday: 'short', day: '2-digit', month: 'short' }).toUpperCase();
-    timeEl.textContent = now.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+    timeEl.textContent = now.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', second: '2-digit' });
   }
   tick();
-  setInterval(tick, 1000 * 15);
+  setInterval(tick, 1000);
 
   document.getElementById('clock-loc').textContent = 'HQ Campus';
   document.getElementById('clock-temp').textContent = '27°C';
@@ -39,13 +72,13 @@ function startClock() {
 
 function renderWorkforce(wf) {
   const percent = wf.totalSanctioned ? Math.round((wf.present * 100) / wf.totalSanctioned) : 0;
-  document.getElementById('wf-total').textContent = wf.totalSanctioned;
-  document.getElementById('wf-percent').textContent = percent + '%';
+  animateNumber(document.getElementById('wf-total'), wf.totalSanctioned);
+  animateNumber(document.getElementById('wf-percent'), percent, '%');
 
   const segments = [
-    { label: 'Present', value: wf.present, color: COLORS.green },
-    { label: 'On Leave', value: wf.onLeave, color: COLORS.amber },
-    { label: 'Field Duty', value: wf.onFieldDuty, color: COLORS.red },
+    { label: 'Present', value: wf.present, color: COLORS.aqua },
+    { label: 'On Leave', value: wf.onLeave, color: COLORS.yellow },
+    { label: 'Field Duty', value: wf.onFieldDuty, color: COLORS.magenta },
     { label: 'Remote', value: wf.remote, color: COLORS.blue },
     { label: 'Vacant', value: wf.vacant, color: COLORS.gray },
   ];
@@ -64,14 +97,16 @@ function renderWorkforce(wf) {
       datasets: [{
         data: segments.map(s => s.value || 0.0001),
         backgroundColor: segments.map(s => s.color),
-        borderWidth: 0,
-        hoverOffset: 4,
+        // 2px of surface between segments keeps neighbouring fills readable.
+        borderWidth: 2,
+        borderColor: CARD_SURFACE,
+        hoverOffset: 6,
       }],
     },
     options: {
-      cutout: '72%',
+      cutout: '70%',
       plugins: { legend: { display: false }, tooltip: { enabled: true } },
-      animation: { duration: 700 },
+      animation: { duration: REDUCED_MOTION ? 0 : 900 },
     },
   });
 }
@@ -117,9 +152,16 @@ function renderProgress(list) {
   el.innerHTML = list.map(t => `
     <div class="progress-row">
       <div class="progress-top"><span>${t.label}</span><span class="pct">${t.percent}%</span></div>
-      <div class="progress-track"><div class="progress-fill" style="width:${t.percent}%"></div></div>
+      <div class="progress-track"><div class="progress-fill" data-percent="${t.percent}"></div></div>
     </div>
   `).join('');
+
+  // Widths are applied on the next frame so the CSS transition has a 0 to grow from.
+  requestAnimationFrame(() => {
+    el.querySelectorAll('.progress-fill').forEach(fill => {
+      fill.style.width = fill.dataset.percent + '%';
+    });
+  });
 }
 
 function daysUntil(dateStr) {
@@ -133,22 +175,29 @@ function renderCountdown(list) {
   const el = document.getElementById('countdown-list');
   el.innerHTML = list.map(c => `
     <div class="countdown-tile" style="--tile-color:${COLORS[c.tag] || COLORS.blue}">
-      <span class="days">${daysUntil(c.date)}</span>
+      <span class="days" data-days="${daysUntil(c.date)}">0</span>
       <span class="unit">DAYS</span>
       <span class="label">${c.label}</span>
       <span class="date">${c.date}</span>
     </div>
   `).join('');
+
+  el.querySelectorAll('.days').forEach(node => {
+    animateNumber(node, Number(node.dataset.days));
+  });
 }
 
 function renderQuickLinks(list) {
   const el = document.getElementById('quicklinks-grid');
-  el.innerHTML = list.map(q => `
-    <a class="quicklink" href="${q.href}">
+  el.innerHTML = list.map((q, i) => {
+    const hue = LINK_HUES[i % LINK_HUES.length];
+    return `
+    <a class="quicklink" href="${q.href}" style="--link-color:${hue.color};--link-wash:${hue.wash}">
       <span class="icon-circle">${svgIcon(q.icon)}</span>
       ${q.label}
     </a>
-  `).join('');
+  `;
+  }).join('');
 }
 
 function renderQuote(q) {

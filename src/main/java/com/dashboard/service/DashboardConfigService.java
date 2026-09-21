@@ -73,19 +73,19 @@ public class DashboardConfigService {
         );
 
         List<EventItem> upcomingEvents = List.of(
-                new EventItem("18 Sep 2026", "Board Meeting", "Conference Hall", "amber"),
-                new EventItem("21 Sep 2026", "Annual Audit (HQ)", "Finance Wing", "amber"),
-                new EventItem("25 Sep 2026", "Technical Training Workshop", "Training Area", "amber"),
-                new EventItem("30 Sep 2026", "Vendor Contract Review", "Workshop", "teal"),
+                new EventItem("18 Sep 2026", "Board Meeting", "Conference Hall", "yellow"),
+                new EventItem("21 Sep 2026", "Annual Audit (HQ)", "Finance Wing", "yellow"),
+                new EventItem("25 Sep 2026", "Technical Training Workshop", "Training Area", "yellow"),
+                new EventItem("30 Sep 2026", "Vendor Contract Review", "Workshop", "aqua"),
                 new EventItem("03 Oct 2026", "Town Hall Meet", "Main Grounds", "blue")
         );
 
         List<Notice> announcements = List.of(
                 new Notice("Submission of Q3 returns by 20 Sep 2026", "red"),
-                new Notice("All teams to update leave plans for Oct 2026", "amber"),
-                new Notice("Asset maintenance logs to be completed by 18 Sep 2026", "amber"),
-                new Notice("Wellness check-up camp on 22 Sep 2026", "green"),
-                new Notice("Dress code review next week - maintain formal attire", "green")
+                new Notice("All teams to update leave plans for Oct 2026", "yellow"),
+                new Notice("Asset maintenance logs to be completed by 18 Sep 2026", "yellow"),
+                new Notice("Wellness check-up camp on 22 Sep 2026", "aqua"),
+                new Notice("Dress code review next week - maintain formal attire", "aqua")
         );
 
         List<ScheduleItem> todaySchedule = List.of(
@@ -99,7 +99,7 @@ public class DashboardConfigService {
         List<CountdownItem> deadlines = List.of(
                 new CountdownItem("Annual Audit", "21 Sep 2026", "red"),
                 new CountdownItem("Sales Summit", "03 Oct 2026", "blue"),
-                new CountdownItem("Founders' Day", "01 Nov 2026", "green")
+                new CountdownItem("Founders' Day", "01 Nov 2026", "aqua")
         );
 
         List<QuickLink> quickLinks = List.of(

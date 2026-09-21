@@ -14,12 +14,17 @@
   --panel: #141d31;
   --panel-2: #101828;
   --panel-border: rgba(255, 255, 255, 0.07);
+  /* Validated against this dark surface with the dataviz palette checker:
+     lightness band, chroma floor, CVD separation, contrast all pass. */
   --accent-gold: #d8ad4d;
-  --accent-blue: #4f8ef7;
-  --accent-teal: #2dd4bf;
-  --accent-green: #34d399;
-  --accent-red: #f16063;
-  --accent-amber: #f5a524;
+  --accent-blue: #3987e5;
+  --accent-teal: #199e70;
+  --accent-green: #199e70;
+  --accent-red: #e66767;
+  --accent-amber: #c98500;
+  --accent-magenta: #d55181;
+  --accent-violet: #9085e9;
+  --accent-neutral: #6b7488;
   --text-primary: #eef1f8;
   --text-secondary: #b6bfd1;
   --text-muted: #7c869c;
@@ -206,23 +211,68 @@ ul { list-style: none; margin: 0; padding: 0; }
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-areas:
-    "workforce events   schedule"
-    "personnel  notices  schedule"
-    "tasks      notices  countdown"
-    "quicklinks quicklinks quote";
+    "workforce  events     schedule"
+    "personnel  notices    tasks"
+    "countdown  countdown  quote"
+    "quicklinks quicklinks quicklinks";
   gap: 18px;
-  align-items: start;
+  align-items: stretch;
 }
 
 /* ---------- Card base ---------- */
 .card {
+  position: relative;
+  overflow: hidden;
   background: linear-gradient(180deg, var(--panel), var(--panel-2));
   border: 1px solid var(--panel-border);
   border-radius: var(--radius);
   padding: 16px 18px 18px;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  animation: cardIn 0.5s cubic-bezier(0.22, 0.85, 0.3, 1) both;
 }
 .card[hidden] { display: none !important; }
+
+/* Each card carries its own accent, set per section below. */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent, var(--accent-blue)), transparent 75%);
+  opacity: 0.85;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-soft, var(--panel-border));
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.38);
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.grid > .card:nth-child(1) { animation-delay: 0.02s; }
+.grid > .card:nth-child(2) { animation-delay: 0.07s; }
+.grid > .card:nth-child(3) { animation-delay: 0.12s; }
+.grid > .card:nth-child(4) { animation-delay: 0.17s; }
+.grid > .card:nth-child(5) { animation-delay: 0.22s; }
+.grid > .card:nth-child(6) { animation-delay: 0.27s; }
+.grid > .card:nth-child(7) { animation-delay: 0.32s; }
+.grid > .card:nth-child(8) { animation-delay: 0.37s; }
+.grid > .card:nth-child(9) { animation-delay: 0.42s; }
+
+[data-section="workforce"]  { --accent: #199e70; --accent-soft: rgba(25, 158, 112, 0.45); --accent-wash: rgba(25, 158, 112, 0.14); }
+[data-section="events"]     { --accent: #3987e5; --accent-soft: rgba(57, 135, 229, 0.45); --accent-wash: rgba(57, 135, 229, 0.14); }
+[data-section="schedule"]   { --accent: #9085e9; --accent-soft: rgba(144, 133, 233, 0.45); --accent-wash: rgba(144, 133, 233, 0.14); }
+[data-section="personnel"]  { --accent: #c98500; --accent-soft: rgba(201, 133, 0, 0.45);  --accent-wash: rgba(201, 133, 0, 0.14); }
+[data-section="notices"]    { --accent: #e66767; --accent-soft: rgba(230, 103, 103, 0.45); --accent-wash: rgba(230, 103, 103, 0.14); }
+[data-section="tasks"]      { --accent: #3987e5; --accent-soft: rgba(57, 135, 229, 0.45); --accent-wash: rgba(57, 135, 229, 0.14); }
+[data-section="countdown"]  { --accent: #d55181; --accent-soft: rgba(213, 81, 129, 0.45); --accent-wash: rgba(213, 81, 129, 0.14); }
+[data-section="quicklinks"] { --accent: #199e70; --accent-soft: rgba(25, 158, 112, 0.45); --accent-wash: rgba(25, 158, 112, 0.14); }
+[data-section="quote"]      { --accent: #d8ad4d; --accent-soft: rgba(216, 173, 77, 0.45); --accent-wash: rgba(216, 173, 77, 0.14); }
 
 .card-head {
   display: flex;
@@ -242,7 +292,15 @@ ul { list-style: none; margin: 0; padding: 0; }
   align-items: center;
   gap: 8px;
 }
-.card-head .ic { color: var(--accent-gold); }
+.card-head .ic {
+  width: 18px;
+  height: 18px;
+  padding: 6px;
+  box-sizing: content-box;
+  border-radius: 9px;
+  color: var(--accent, var(--accent-gold));
+  background: var(--accent-wash, rgba(255, 255, 255, 0.06));
+}
 .view-all {
   font-size: 11.5px;
   color: var(--accent-blue);
@@ -321,17 +379,31 @@ ul { list-style: none; margin: 0; padding: 0; }
 .progress-list { display: flex; flex-direction: column; gap: 13px; }
 .progress-row .progress-top { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px; }
 .progress-row .progress-top .pct { color: var(--text-muted); font-weight: 600; }
-.progress-track { height: 7px; border-radius: 5px; background: rgba(255, 255, 255, 0.06); overflow: hidden; }
-.progress-fill { height: 100%; border-radius: 5px; background: linear-gradient(90deg, var(--accent-blue), var(--accent-teal)); }
+.progress-track { height: 8px; border-radius: 5px; background: rgba(255, 255, 255, 0.06); overflow: hidden; }
+.progress-fill {
+  height: 100%;
+  width: 0;
+  border-radius: 5px;
+  background: linear-gradient(90deg, #256abf, #3987e5 60%, #5598e7);
+  transition: width 0.9s cubic-bezier(0.22, 0.85, 0.3, 1);
+}
 
 /* ---------- Countdown ---------- */
 .countdown-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .countdown-tile {
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 14px 8px;
   text-align: center;
   color: #fff;
-  background: var(--tile-color, var(--accent-blue));
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 60%),
+    var(--tile-color, var(--accent-blue));
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.countdown-tile:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 14px 26px rgba(0, 0, 0, 0.38);
 }
 .countdown-tile .days { font-family: var(--font-head); font-size: 24px; font-weight: 800; display: block; }
 .countdown-tile .unit { font-size: 9px; letter-spacing: 1px; opacity: 0.85; display: block; margin-top: 2px; }
@@ -356,13 +428,20 @@ ul { list-style: none; margin: 0; padding: 0; }
   text-align: center;
   transition: background 0.15s, transform 0.15s, color 0.15s;
 }
-.quicklink:hover { background: rgba(216, 173, 77, 0.1); color: var(--accent-gold); transform: translateY(-2px); }
-.quicklink .icon-circle {
-  width: 38px; height: 38px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(216, 173, 77, 0.12);
-  color: var(--accent-gold);
+.quicklink:hover {
+  background: var(--link-wash, rgba(216, 173, 77, 0.1));
+  color: var(--link-color, var(--accent-gold));
+  border-color: var(--link-color, var(--accent-gold));
+  transform: translateY(-3px);
 }
+.quicklink .icon-circle {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--link-wash, rgba(216, 173, 77, 0.12));
+  color: var(--link-color, var(--accent-gold));
+  transition: transform 0.18s ease;
+}
+.quicklink:hover .icon-circle { transform: scale(1.08); }
 
 /* ---------- Quote card ---------- */
 .quote-card {
@@ -418,6 +497,16 @@ ul { list-style: none; margin: 0; padding: 0; }
   font-weight: 600;
 }
 .footer .dot { color: var(--accent-gold); }
+
+/* ---------- Motion preference ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
 
 /* ---------- Responsive ---------- */
 @media (max-width: 1200px) {
@@ -974,25 +1063,25 @@ const OFFLINE_DEFAULT_DATA = {
       "date": "18 Sep 2026",
       "name": "Board Meeting",
       "location": "Conference Hall",
-      "tag": "amber"
+      "tag": "yellow"
     },
     {
       "date": "21 Sep 2026",
       "name": "Annual Audit (HQ)",
       "location": "Finance Wing",
-      "tag": "amber"
+      "tag": "yellow"
     },
     {
       "date": "25 Sep 2026",
       "name": "Technical Training Workshop",
       "location": "Training Area",
-      "tag": "amber"
+      "tag": "yellow"
     },
     {
       "date": "30 Sep 2026",
       "name": "Vendor Contract Review",
       "location": "Workshop",
-      "tag": "teal"
+      "tag": "aqua"
     },
     {
       "date": "03 Oct 2026",
@@ -1008,19 +1097,19 @@ const OFFLINE_DEFAULT_DATA = {
     },
     {
       "text": "All teams to update leave plans for Oct 2026",
-      "priority": "amber"
+      "priority": "yellow"
     },
     {
       "text": "Asset maintenance logs to be completed by 18 Sep 2026",
-      "priority": "amber"
+      "priority": "yellow"
     },
     {
       "text": "Wellness check-up camp on 22 Sep 2026",
-      "priority": "green"
+      "priority": "aqua"
     },
     {
       "text": "Dress code review next week - maintain formal attire",
-      "priority": "green"
+      "priority": "aqua"
     }
   ],
   "todaySchedule": [
@@ -1064,7 +1153,7 @@ const OFFLINE_DEFAULT_DATA = {
     {
       "label": "Founders' Day",
       "date": "01 Nov 2026",
-      "tag": "green"
+      "tag": "aqua"
     }
   ],
   "quickLinks": [
@@ -1283,14 +1372,47 @@ window.addEventListener('DOMContentLoaded', () => {
 
 </script>
 <script>
+// Dark-surface palette, validated for lightness band, chroma, colour-blind
+// separation and contrast. green/teal/amber are kept as aliases so dashboards
+// saved before this palette landed still render.
 const COLORS = {
-  green: '#34d399',
-  amber: '#f5a524',
-  red: '#f16063',
-  blue: '#4f8ef7',
-  teal: '#2dd4bf',
-  gray: '#5b6577',
+  blue: '#3987e5',
+  aqua: '#199e70',
+  teal: '#199e70',
+  green: '#199e70',
+  yellow: '#c98500',
+  amber: '#c98500',
+  magenta: '#d55181',
+  violet: '#9085e9',
+  red: '#e66767',
+  gray: '#6b7488',
 };
+
+const CARD_SURFACE = '#141d31';
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const LINK_HUES = [
+  { color: '#3987e5', wash: 'rgba(57, 135, 229, 0.14)' },
+  { color: '#199e70', wash: 'rgba(25, 158, 112, 0.14)' },
+  { color: '#c98500', wash: 'rgba(201, 133, 0, 0.14)' },
+  { color: '#d55181', wash: 'rgba(213, 81, 129, 0.14)' },
+  { color: '#9085e9', wash: 'rgba(144, 133, 233, 0.14)' },
+];
+
+function animateNumber(el, to, suffix) {
+  const tail = suffix || '';
+  if (REDUCED_MOTION) {
+    el.textContent = to + tail;
+    return;
+  }
+  const duration = 900;
+  const start = performance.now();
+  requestAnimationFrame(function step(now) {
+    const t = Math.min((now - start) / duration, 1);
+    el.textContent = Math.round(to * (1 - Math.pow(1 - t, 3))) + tail;
+    if (t < 1) requestAnimationFrame(step);
+  });
+}
 
 const ICONS = {
   file: '<path d="M6 2h9l5 5v15H6z"/><path d="M15 2v5h5"/>',
@@ -1313,10 +1435,10 @@ function startClock() {
   function tick() {
     const now = new Date();
     dateEl.textContent = now.toLocaleDateString(undefined, { weekday: 'short', day: '2-digit', month: 'short' }).toUpperCase();
-    timeEl.textContent = now.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+    timeEl.textContent = now.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', second: '2-digit' });
   }
   tick();
-  setInterval(tick, 1000 * 15);
+  setInterval(tick, 1000);
 
   document.getElementById('clock-loc').textContent = 'HQ Campus';
   document.getElementById('clock-temp').textContent = '27°C';
@@ -1324,13 +1446,13 @@ function startClock() {
 
 function renderWorkforce(wf) {
   const percent = wf.totalSanctioned ? Math.round((wf.present * 100) / wf.totalSanctioned) : 0;
-  document.getElementById('wf-total').textContent = wf.totalSanctioned;
-  document.getElementById('wf-percent').textContent = percent + '%';
+  animateNumber(document.getElementById('wf-total'), wf.totalSanctioned);
+  animateNumber(document.getElementById('wf-percent'), percent, '%');
 
   const segments = [
-    { label: 'Present', value: wf.present, color: COLORS.green },
-    { label: 'On Leave', value: wf.onLeave, color: COLORS.amber },
-    { label: 'Field Duty', value: wf.onFieldDuty, color: COLORS.red },
+    { label: 'Present', value: wf.present, color: COLORS.aqua },
+    { label: 'On Leave', value: wf.onLeave, color: COLORS.yellow },
+    { label: 'Field Duty', value: wf.onFieldDuty, color: COLORS.magenta },
     { label: 'Remote', value: wf.remote, color: COLORS.blue },
     { label: 'Vacant', value: wf.vacant, color: COLORS.gray },
   ];
@@ -1349,14 +1471,16 @@ function renderWorkforce(wf) {
       datasets: [{
         data: segments.map(s => s.value || 0.0001),
         backgroundColor: segments.map(s => s.color),
-        borderWidth: 0,
-        hoverOffset: 4,
+        // 2px of surface between segments keeps neighbouring fills readable.
+        borderWidth: 2,
+        borderColor: CARD_SURFACE,
+        hoverOffset: 6,
       }],
     },
     options: {
-      cutout: '72%',
+      cutout: '70%',
       plugins: { legend: { display: false }, tooltip: { enabled: true } },
-      animation: { duration: 700 },
+      animation: { duration: REDUCED_MOTION ? 0 : 900 },
     },
   });
 }
@@ -1402,9 +1526,16 @@ function renderProgress(list) {
   el.innerHTML = list.map(t => `
     <div class="progress-row">
       <div class="progress-top"><span>${t.label}</span><span class="pct">${t.percent}%</span></div>
-      <div class="progress-track"><div class="progress-fill" style="width:${t.percent}%"></div></div>
+      <div class="progress-track"><div class="progress-fill" data-percent="${t.percent}"></div></div>
     </div>
   `).join('');
+
+  // Widths are applied on the next frame so the CSS transition has a 0 to grow from.
+  requestAnimationFrame(() => {
+    el.querySelectorAll('.progress-fill').forEach(fill => {
+      fill.style.width = fill.dataset.percent + '%';
+    });
+  });
 }
 
 function daysUntil(dateStr) {
@@ -1418,22 +1549,29 @@ function renderCountdown(list) {
   const el = document.getElementById('countdown-list');
   el.innerHTML = list.map(c => `
     <div class="countdown-tile" style="--tile-color:${COLORS[c.tag] || COLORS.blue}">
-      <span class="days">${daysUntil(c.date)}</span>
+      <span class="days" data-days="${daysUntil(c.date)}">0</span>
       <span class="unit">DAYS</span>
       <span class="label">${c.label}</span>
       <span class="date">${c.date}</span>
     </div>
   `).join('');
+
+  el.querySelectorAll('.days').forEach(node => {
+    animateNumber(node, Number(node.dataset.days));
+  });
 }
 
 function renderQuickLinks(list) {
   const el = document.getElementById('quicklinks-grid');
-  el.innerHTML = list.map(q => `
-    <a class="quicklink" href="${q.href}">
+  el.innerHTML = list.map((q, i) => {
+    const hue = LINK_HUES[i % LINK_HUES.length];
+    return `
+    <a class="quicklink" href="${q.href}" style="--link-color:${hue.color};--link-wash:${hue.wash}">
       <span class="icon-circle">${svgIcon(q.icon)}</span>
       ${q.label}
     </a>
-  `).join('');
+  `;
+  }).join('');
 }
 
 function renderQuote(q) {
@@ -1505,7 +1643,8 @@ loadDashboard();
 
 </script>
 <script>
-const TAG_COLORS = ['blue', 'teal', 'green', 'amber', 'red', 'gray'];
+// Fixed order - validated for colour-blind separation against the dashboard surface.
+const TAG_COLORS = ['blue', 'aqua', 'yellow', 'magenta', 'violet', 'red', 'gray'];
 const ICON_OPTIONS = ['file', 'plane', 'book', 'clipboard', 'phone'];
 
 const SECTIONS = [
@@ -1595,7 +1734,12 @@ function buildField(f, value) {
     input.value = value ?? '';
   } else if (f.type === 'select') {
     input = document.createElement('select');
-    f.options.forEach(opt => {
+    // A value saved before this option list changed must stay selectable,
+    // otherwise saving would silently rewrite it to the first option.
+    const options = value && f.options.indexOf(value) === -1
+      ? [value].concat(f.options)
+      : f.options;
+    options.forEach(opt => {
       const o = document.createElement('option');
       o.value = opt;
       o.textContent = opt;
