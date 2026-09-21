@@ -230,12 +230,38 @@ function collectConfig() {
   return result;
 }
 
+function showBanner(message) {
+  const banner = document.getElementById('admin-banner');
+  if (!banner) return;
+  banner.innerHTML = message;
+  banner.hidden = false;
+}
+
+function hideBanner() {
+  const banner = document.getElementById('admin-banner');
+  if (banner) banner.hidden = true;
+}
+
+async function failureReason(res) {
+  if (res.status === 401 || res.status === 403) {
+    return 'your login expired - reload the page and sign in again';
+  }
+  try {
+    const body = await res.json();
+    if (body && body.message) return body.message;
+  } catch (ignored) {
+    // no JSON body to explain the failure
+  }
+  return 'the server answered with HTTP ' + res.status;
+}
+
 async function save() {
   const btn = document.getElementById('save-btn');
   const status = document.getElementById('save-status');
   btn.disabled = true;
   status.classList.remove('error');
   status.textContent = 'Saving...';
+  hideBanner();
 
   try {
     const config = collectConfig();
@@ -244,13 +270,14 @@ async function save() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(config),
     });
-    if (!res.ok) throw new Error('Request failed: ' + res.status);
+    if (!res.ok) throw new Error(await failureReason(res));
     status.textContent = 'Saved ✓';
     setTimeout(() => { status.textContent = ''; }, 2500);
   } catch (err) {
     console.error('Failed to save dashboard config', err);
     status.textContent = 'Save failed';
     status.classList.add('error');
+    showBanner('<strong>Could not save:</strong> ' + err.message);
   } finally {
     btn.disabled = false;
   }
