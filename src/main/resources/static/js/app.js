@@ -60,7 +60,6 @@ function renderWorkforce(wf) {
     { label: 'On Leave', value: wf.onLeave, color: COLORS.yellow },
     { label: 'On TD', value: wf.onFieldDuty, color: COLORS.magenta },
     { label: 'Attached', value: wf.remote, color: COLORS.blue },
-    { label: 'Vacant', value: wf.vacant, color: COLORS.gray },
   ];
 
   const legend = document.getElementById('wf-legend');
@@ -130,7 +129,6 @@ function renderEvents(events) {
     <tr style="--row-color:${COLORS[e.tag] || COLORS.blue}">
       <td>${formatDate(e.date)}</td>
       <td class="event-name">${e.name}</td>
-      <td>${e.location}</td>
     </tr>
   `).join('');
 }
@@ -186,6 +184,12 @@ function renderCountdown(list) {
   });
 }
 
+function renderQuote(q) {
+  const quote = q || {};
+  document.getElementById('quote-text').textContent = quote.text ? `\u201C${quote.text}\u201D` : '';
+  document.getElementById('quote-author').textContent = quote.author ? `\u2014 ${quote.author}` : '';
+}
+
 function isVisible(visibility, key) {
   return !visibility || visibility[key] !== false;
 }
@@ -221,6 +225,7 @@ async function loadDashboard() {
     renderPersonnel(data.keyPersonnel);
     renderProgress(data.projectStatus);
     renderCountdown(data.deadlines);
+    renderQuote(data.quoteOfTheDay);
     applyVisibility(data.visibility);
   } catch (err) {
     console.error('Failed to load dashboard data', err);

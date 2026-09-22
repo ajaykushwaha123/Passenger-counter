@@ -52,11 +52,11 @@ public class DashboardConfigService {
 
     private DashboardConfig defaultConfig() {
         Map<String, Boolean> visibility = new LinkedHashMap<>();
-        for (String key : List.of("workforce", "events", "schedule", "personnel", "tasks", "countdown", "image")) {
+        for (String key : List.of("workforce", "events", "schedule", "personnel", "tasks", "countdown", "quote")) {
             visibility.put(key, true);
         }
 
-        WorkforceStatus workforce = new WorkforceStatus(142, 128, 8, 6, 0, 0);
+        WorkforceStatus workforce = new WorkforceStatus(142, 128, 8, 6, 0);
 
         List<Appointment> keyPersonnel = List.of(
                 new Appointment("Commanding Officer", "Lt Col A. Sharma"),
@@ -79,11 +79,11 @@ public class DashboardConfigService {
         );
 
         List<EventItem> upcomingEvents = List.of(
-                new EventItem("2026-10-18", "Commanders' Conference", "Conference Hall", "red"),
-                new EventItem("2026-10-21", "Annual Inspection (HQ)", "Unit Lines", "yellow"),
-                new EventItem("2026-10-25", "Technical Training Workshop", "Training Area", "yellow"),
-                new EventItem("2026-10-30", "Equipment Audit", "Workshop", "aqua"),
-                new EventItem("2026-11-03", "Sports Meet", "Unit Grounds", "blue")
+                new EventItem("2026-10-18", "Commanders' Conference", "red"),
+                new EventItem("2026-10-21", "Annual Inspection (HQ)", "yellow"),
+                new EventItem("2026-10-25", "Technical Training Workshop", "yellow"),
+                new EventItem("2026-10-30", "Equipment Audit", "aqua"),
+                new EventItem("2026-11-03", "Sports Meet", "blue")
         );
 
         List<ScheduleItem> todaySchedule = List.of(
@@ -100,6 +100,8 @@ public class DashboardConfigService {
                 new CountdownItem("Raising Day", "2026-11-01", "aqua")
         );
 
+        Quote quote = new Quote("Discipline today, readiness tomorrow.", "Unit Motto");
+
         return new DashboardConfig(
                 visibility,
                 workforce,
@@ -107,7 +109,8 @@ public class DashboardConfigService {
                 projectStatus,
                 upcomingEvents,
                 todaySchedule,
-                deadlines
+                deadlines,
+                quote
         );
     }
 }

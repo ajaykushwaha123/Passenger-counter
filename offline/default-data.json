@@ -6,15 +6,14 @@
         "personnel": true,
         "tasks": true,
         "countdown": true,
-        "image": true
+        "quote": true
     },
     "workforce": {
         "totalSanctioned": 142,
         "present": 128,
         "onLeave": 8,
         "onFieldDuty": 6,
-        "remote": 0,
-        "vacant": 0
+        "remote": 0
     },
     "keyPersonnel": [
         {
@@ -80,31 +79,26 @@
         {
             "date": "2026-10-18",
             "name": "Commanders' Conference",
-            "location": "Conference Hall",
             "tag": "red"
         },
         {
             "date": "2026-10-21",
             "name": "Annual Inspection (HQ)",
-            "location": "Unit Lines",
             "tag": "yellow"
         },
         {
             "date": "2026-10-25",
             "name": "Technical Training Workshop",
-            "location": "Training Area",
             "tag": "yellow"
         },
         {
             "date": "2026-10-30",
             "name": "Equipment Audit",
-            "location": "Workshop",
             "tag": "aqua"
         },
         {
             "date": "2026-11-03",
             "name": "Sports Meet",
-            "location": "Unit Grounds",
             "tag": "blue"
         }
     ],
@@ -151,5 +145,9 @@
             "date": "2026-11-01",
             "tag": "aqua"
         }
-    ]
+    ],
+    "quoteOfTheDay": {
+        "text": "Discipline today, readiness tomorrow.",
+        "author": "Unit Motto"
+    }
 }

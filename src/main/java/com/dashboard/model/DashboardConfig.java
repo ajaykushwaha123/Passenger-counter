@@ -15,6 +15,7 @@ public record DashboardConfig(
         List<TaskProgress> projectStatus,
         List<EventItem> upcomingEvents,
         List<ScheduleItem> todaySchedule,
-        List<CountdownItem> deadlines
+        List<CountdownItem> deadlines,
+        Quote quoteOfTheDay
 ) {
 }

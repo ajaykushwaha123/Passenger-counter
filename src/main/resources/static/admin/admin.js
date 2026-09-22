@@ -10,7 +10,6 @@ const SECTIONS = [
       { name: 'onLeave', label: 'On Leave', type: 'number' },
       { name: 'onFieldDuty', label: 'On TD', type: 'number' },
       { name: 'remote', label: 'Attached', type: 'number' },
-      { name: 'vacant', label: 'Vacant', type: 'number' },
     ],
   },
   {
@@ -18,7 +17,6 @@ const SECTIONS = [
     fields: [
       { name: 'date', label: 'Date', type: 'date' },
       { name: 'name', label: 'Event Name', type: 'text' },
-      { name: 'location', label: 'Location', type: 'text' },
       { name: 'tag', label: 'Colour Tag', type: 'select', options: TAG_COLORS },
     ],
   },
@@ -27,7 +25,7 @@ const SECTIONS = [
     fields: [
       { name: 'time', label: 'Time', type: 'text', placeholder: '09:00 - 09:30' },
       { name: 'activity', label: 'Activity', type: 'text' },
-      { name: 'venue', label: 'Venue', type: 'text' },
+      { name: 'venue', label: 'Location', type: 'text' },
     ],
   },
   {
@@ -53,8 +51,11 @@ const SECTIONS = [
     ],
   },
   {
-    key: 'image', title: 'Unit Photo', type: 'toggle',
-    note: 'The photo card at the bottom of the dashboard. Switch it off to hide it.',
+    key: 'quote', title: 'Quote of the Day', type: 'object', dataKey: 'quoteOfTheDay',
+    fields: [
+      { name: 'text', label: 'Quote', type: 'textarea' },
+      { name: 'author', label: 'Author', type: 'text' },
+    ],
   },
 ];
 

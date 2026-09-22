@@ -40,16 +40,25 @@ def js_safe(text):
     return text.replace("</script>", "<\\/script>")
 
 
-def inline_images(html):
-    """Replace img src paths with data URIs - the build has to be one file."""
-    def repl(match):
-        prefix, path = match.group(1), match.group(2)
-        source = STATIC / "img" / pathlib.Path(path).name
-        mime = mimetypes.guess_type(source.name)[0] or "application/octet-stream"
-        encoded = base64.b64encode(source.read_bytes()).decode("ascii")
-        return f'{prefix}"data:{mime};base64,{encoded}"'
+def data_uri(name):
+    source = STATIC / "img" / pathlib.Path(name).name
+    mime = mimetypes.guess_type(source.name)[0] or "application/octet-stream"
+    return f"data:{mime};base64," + base64.b64encode(source.read_bytes()).decode("ascii")
 
-    return re.sub(r'(src=)"(/?img/[^"]+)"', repl, html)
+
+def inline_images(html):
+    """Replace image references with data URIs - the build has to be one file."""
+    html = re.sub(
+        r'(src=)"(\.{0,2}/?img/[^"]+)"',
+        lambda m: f'{m.group(1)}"{data_uri(m.group(2))}"',
+        html,
+    )
+    # stylesheets reach for the same files through url(...)
+    return re.sub(
+        r'url\((["\']?)(\.{0,2}/?img/[^"\')]+)\1\)',
+        lambda m: f'url("{data_uri(m.group(2))}")',
+        html,
+    )
 
 
 def main():

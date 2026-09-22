@@ -251,6 +251,14 @@ input:focus, textarea:focus, select:focus {
   letter-spacing: 0.4px;
 }
 .add-dialog .field-row { grid-template-columns: 1fr; gap: 10px; }
+.lock-error {
+  margin: 10px 0 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent-red);
+}
+.lock-error[hidden] { display: none; }
+
 .add-dialog-actions {
   display: flex;
   justify-content: flex-end;
