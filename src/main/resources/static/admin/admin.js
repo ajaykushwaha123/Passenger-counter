@@ -194,11 +194,9 @@ function buildListEditor(section, items) {
   addBtn.textContent = `+ Add ${section.itemLabel}`;
   addBtn.addEventListener('click', () => openAddDialog(section, item => addRow(item, true)));
 
-  const outer = document.createElement('div');
-  outer.className = 'list-outer';
-  outer.appendChild(listWrap);
-  outer.appendChild(addBtn);
-  return outer;
+  // The button is handed back separately so the card can pin it above the
+  // scrolling list - at the bottom it sat below the fold on a long list.
+  return { list: listWrap, addBtn };
 }
 
 function renderSections(config) {
@@ -230,7 +228,9 @@ function renderSections(config) {
       if (section.type === 'object') {
         body.appendChild(buildObjectForm(section, data || {}));
       } else {
-        body.appendChild(buildListEditor(section, data || []));
+        const editor = buildListEditor(section, data || []);
+        card.appendChild(editor.addBtn);
+        body.appendChild(editor.list);
       }
       card.appendChild(body);
     } else if (section.note) {
