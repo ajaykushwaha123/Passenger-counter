@@ -114,10 +114,10 @@ ul { list-style: none; margin: 0; padding: 0; }
   gap: 14px;
   padding: 8px 20px;
   background-image:
-    linear-gradient(180deg, rgba(10, 16, 32, 0.28), rgba(10, 16, 32, 0.72)),
+    linear-gradient(180deg, rgba(10, 16, 32, 0.10), rgba(10, 16, 32, 0.42)),
     url("../img/header-bg.jpg");
   background-size: cover;
-  background-position: center;
+  background-position: center 58%;
   border-bottom: 1px solid var(--panel-border);
   flex-shrink: 0;
 }
@@ -138,6 +138,7 @@ ul { list-style: none; margin: 0; padding: 0; }
   font-weight: 700;
   letter-spacing: 1.2px;
   color: var(--accent-gold);
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.9);
 }
 
 .title-block { text-align: center; }
@@ -152,13 +153,15 @@ ul { list-style: none; margin: 0; padding: 0; }
   background-clip: text;
   color: transparent;
   white-space: nowrap;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.85));
 }
 .tagline {
   margin: 3px 0 0;
   font-size: 11px;
   letter-spacing: 2px;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   font-weight: 600;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.9);
 }
 
 .meta { display: flex; align-items: center; justify-content: flex-end; }
@@ -166,11 +169,12 @@ ul { list-style: none; margin: 0; padding: 0; }
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  background: var(--panel);
+  background: rgba(16, 24, 40, 0.86);
   border: 1px solid var(--panel-border);
   border-radius: 9px;
   padding: 5px 12px;
   min-width: 124px;
+  backdrop-filter: blur(3px);
 }
 #clock-time { font-family: var(--font-head); font-weight: 700; font-size: 19px; }
 #clock-date { font-size: 11px; color: var(--text-muted); }
