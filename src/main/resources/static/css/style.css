@@ -1,0 +1,488 @@
+:root {
+  --bg: #0a1020;
+  --panel: #141d31;
+  --panel-2: #101828;
+  --panel-border: rgba(255, 255, 255, 0.08);
+  /* Validated against this dark surface with the dataviz palette checker:
+     lightness band, chroma floor, CVD separation, contrast all pass. */
+  --accent-gold: #d8ad4d;
+  --accent-blue: #3987e5;
+  --accent-teal: #199e70;
+  --accent-green: #199e70;
+  --accent-red: #e66767;
+  --accent-amber: #c98500;
+  --accent-magenta: #d55181;
+  --accent-violet: #9085e9;
+  --accent-neutral: #6b7488;
+  --text-primary: #eef1f8;
+  --text-secondary: #b6bfd1;
+  --text-muted: #7c869c;
+  --radius: 12px;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-head: 'Poppins', 'Inter', sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; margin: 0; padding: 0; }
+
+/* Only the dashboard is pinned to one screen. The admin panel shares this
+   stylesheet - and the same document in the offline build - so the clipping
+   lives here rather than on html/body, which would freeze the admin page too. */
+.app-shell {
+  display: grid;
+  grid-template-columns: 74px 1fr;
+  height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(900px 420px at 12% -8%, rgba(216, 173, 77, 0.10), transparent 62%),
+    radial-gradient(900px 460px at 88% -6%, rgba(57, 135, 229, 0.12), transparent 60%),
+    radial-gradient(700px 500px at 50% 110%, rgba(25, 158, 112, 0.09), transparent 62%),
+    linear-gradient(160deg, #0d1526, var(--bg) 55%, #080d19);
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+  background: linear-gradient(180deg, #0c1322, #090e19);
+  border-right: 1px solid var(--panel-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 0;
+  gap: 8px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  align-items: center;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  width: 58px;
+  padding: 9px 4px;
+  border-radius: 10px;
+  color: var(--text-muted);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.nav-item svg { flex-shrink: 0; }
+.nav-item[hidden] { display: none; }
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+}
+
+.nav-item.active {
+  background: rgba(216, 173, 77, 0.14);
+  color: var(--accent-gold);
+}
+
+/* ---------- Main / header ---------- */
+.main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+.topbar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 20px;
+  background-image:
+    linear-gradient(180deg, rgba(10, 16, 32, 0.10), rgba(10, 16, 32, 0.42)),
+    url("../img/header-bg.jpg");
+  background-size: cover;
+  background-position: center 58%;
+  border-bottom: 1px solid var(--panel-border);
+  flex-shrink: 0;
+}
+
+.brand { display: flex; align-items: center; gap: 12px; }
+
+.crest {
+  height: 68px;
+  width: auto;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
+}
+
+.creed {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  color: var(--accent-gold);
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.9);
+}
+
+.title-block { text-align: center; }
+.title-block h1 {
+  margin: 0;
+  font-family: var(--font-head);
+  font-weight: 800;
+  font-size: clamp(19px, 2.1vw, 31px);
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, #fff, var(--accent-gold) 92%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  white-space: nowrap;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.85));
+}
+.tagline {
+  margin: 3px 0 0;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.9);
+}
+
+.meta { display: flex; align-items: center; justify-content: flex-end; }
+.clock-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  background: rgba(16, 24, 40, 0.86);
+  border: 1px solid var(--panel-border);
+  border-radius: 9px;
+  padding: 5px 12px;
+  min-width: 124px;
+  backdrop-filter: blur(3px);
+}
+#clock-time { font-family: var(--font-head); font-weight: 700; font-size: 19px; }
+#clock-date { font-size: 11px; color: var(--text-muted); }
+.clock-sub { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
+
+/* ---------- Grid: three columns, three rows, no page scroll ---------- */
+.grid {
+  flex: 1;
+  min-height: 0;
+  padding: 12px 20px 16px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1.15fr 1fr 0.95fr;
+  grid-template-areas:
+    "workforce  events    schedule"
+    "personnel  tasks     countdown"
+    "personnel  quote     quote";
+  gap: 12px;
+}
+
+/* ---------- Card base ---------- */
+.card {
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, var(--panel), var(--panel-2));
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius);
+  padding: 10px 12px 11px;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.28);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  animation: cardIn 0.45s cubic-bezier(0.22, 0.85, 0.3, 1) both;
+}
+.card[hidden] { display: none !important; }
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent, var(--accent-blue)), transparent 75%);
+  opacity: 0.9;
+  z-index: 2;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-soft, var(--panel-border));
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Whatever a card cannot fit scrolls inside the card, never the page. */
+.card-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+}
+.card-body::-webkit-scrollbar { width: 6px; }
+.card-body::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.16); border-radius: 3px; }
+.card-body::-webkit-scrollbar-track { background: transparent; }
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.grid > .card:nth-child(1) { animation-delay: 0.02s; }
+.grid > .card:nth-child(2) { animation-delay: 0.07s; }
+.grid > .card:nth-child(3) { animation-delay: 0.12s; }
+.grid > .card:nth-child(4) { animation-delay: 0.17s; }
+.grid > .card:nth-child(5) { animation-delay: 0.22s; }
+.grid > .card:nth-child(6) { animation-delay: 0.27s; }
+.grid > .card:nth-child(7) { animation-delay: 0.32s; }
+
+[data-section="workforce"] { --accent: #199e70; --accent-soft: rgba(25, 158, 112, 0.45); --accent-wash: rgba(25, 158, 112, 0.14); }
+[data-section="events"]    { --accent: #3987e5; --accent-soft: rgba(57, 135, 229, 0.45); --accent-wash: rgba(57, 135, 229, 0.14); }
+[data-section="schedule"]  { --accent: #9085e9; --accent-soft: rgba(144, 133, 233, 0.45); --accent-wash: rgba(144, 133, 233, 0.14); }
+[data-section="personnel"] { --accent: #c98500; --accent-soft: rgba(201, 133, 0, 0.45); --accent-wash: rgba(201, 133, 0, 0.14); }
+[data-section="tasks"]     { --accent: #3987e5; --accent-soft: rgba(57, 135, 229, 0.45); --accent-wash: rgba(57, 135, 229, 0.14); }
+[data-section="countdown"] { --accent: #d55181; --accent-soft: rgba(213, 81, 129, 0.45); --accent-wash: rgba(213, 81, 129, 0.14); }
+[data-section="quote"]     { --accent: #d8ad4d; --accent-soft: rgba(216, 173, 77, 0.45); --accent-wash: rgba(216, 173, 77, 0.14); }
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+.card-head h2 {
+  margin: 0;
+  font-family: var(--font-head);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.card-head .ic {
+  width: 15px;
+  height: 15px;
+  padding: 5px;
+  box-sizing: content-box;
+  border-radius: 8px;
+  color: var(--accent, var(--accent-gold));
+  background: var(--accent-wash, rgba(255, 255, 255, 0.06));
+}
+
+/* ---------- Manpower card ---------- */
+.workforce-body { display: flex; flex-direction: column; gap: 6px; }
+.workforce-top { display: flex; align-items: center; gap: 10px; }
+.workforce-total { display: flex; flex-direction: column; flex-shrink: 0; }
+.workforce-total .label { font-size: 11px; color: var(--text-muted); max-width: 88px; line-height: 1.3; }
+.workforce-total .value { font-family: var(--font-head); font-size: 34px; font-weight: 700; line-height: 1.1; }
+.donut-wrap { position: relative; flex: 1; min-width: 0; height: 112px; }
+.donut-center {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  pointer-events: none;
+}
+.donut-center span { font-family: var(--font-head); font-size: 20px; font-weight: 700; color: var(--accent-green); }
+.donut-center small { font-size: 10.5px; color: var(--text-muted); }
+.legend { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 10px; }
+.legend li { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary); }
+.legend .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.legend .num { margin-left: auto; font-weight: 600; color: var(--text-primary); }
+
+/* ---------- Tables ---------- */
+.data-table { width: 100%; height: 100%; border-collapse: collapse; font-size: 12.5px; }
+.data-table thead th {
+  position: sticky;
+  top: 0;
+  background: var(--panel);
+  text-align: left;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 10.5px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 0 6px 7px 9px;
+  border-bottom: 1px solid var(--panel-border);
+}
+.data-table tbody td {
+  padding: 6px 6px 6px 9px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  color: var(--text-secondary);
+  vertical-align: middle;
+}
+.data-table tbody tr:last-child td { border-bottom: none; }
+.data-table td:first-child { position: relative; color: var(--text-primary); font-weight: 500; white-space: nowrap; }
+.data-table td:first-child::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 3px; bottom: 3px;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--row-color, var(--accent-blue));
+}
+.data-table td.event-name, .data-table td.activity-name { color: var(--text-primary); font-weight: 500; }
+
+/* ---------- Key appointments ---------- */
+.personnel-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100%;
+}
+.personnel-list li {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  font-size: 12.5px;
+  padding: 5px 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
+}
+.personnel-list li:last-child { border-bottom: none; }
+.personnel-list .role { color: var(--text-muted); }
+.personnel-list .name { color: var(--text-primary); font-weight: 600; white-space: nowrap; }
+
+/* ---------- Task status ---------- */
+.progress-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 6px;
+  min-height: 100%;
+  padding-top: 2px;
+}
+.progress-row .progress-top { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 3px; }
+.progress-row .progress-top .pct { color: var(--text-muted); font-weight: 600; }
+.progress-track { height: 7px; border-radius: 5px; background: rgba(255, 255, 255, 0.06); overflow: hidden; }
+.progress-fill {
+  height: 100%;
+  width: 0;
+  border-radius: 5px;
+  background: linear-gradient(90deg, #256abf, #3987e5 60%, #5598e7);
+  transition: width 0.9s cubic-bezier(0.22, 0.85, 0.3, 1);
+}
+
+/* ---------- Countdown ---------- */
+.countdown-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; height: 100%; }
+.countdown-tile {
+  border-radius: 11px;
+  padding: 10px 6px;
+  text-align: center;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0) 62%),
+    var(--tile-color, var(--accent-blue));
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.countdown-tile:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 14px 24px rgba(0, 0, 0, 0.4); }
+.countdown-tile .days { font-family: var(--font-head); font-size: 29px; font-weight: 800; line-height: 1; }
+.countdown-tile .unit { font-size: 9px; letter-spacing: 1.2px; opacity: 0.85; margin-top: 2px; }
+.countdown-tile .label { font-size: 11.5px; font-weight: 600; margin-top: 7px; }
+.countdown-tile .date { font-size: 10px; opacity: 0.85; margin-top: 1px; }
+
+/* ---------- Quote of the day (photo behind the text) ---------- */
+.quote-card {
+  padding: 0;
+  justify-content: flex-end;
+}
+.quote-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 58% 42%;
+}
+.quote-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, rgba(8, 13, 26, 0.92) 8%, rgba(8, 13, 26, 0.68) 48%, rgba(8, 13, 26, 0.30) 100%);
+}
+.quote-body {
+  position: relative;
+  z-index: 1;
+  padding: 14px 18px 16px;
+  max-width: 78%;
+}
+.quote-label {
+  font-size: 10px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  font-weight: 700;
+}
+.quote-body p {
+  font-family: var(--font-head);
+  font-size: clamp(14px, 1.25vw, 19px);
+  font-weight: 600;
+  line-height: 1.35;
+  margin: 7px 0 5px;
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+.quote-author { font-size: 11.5px; color: var(--text-secondary); }
+
+/* ---------- Motion preference ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- Small screens: the one-screen rule gives way to scrolling ---------- */
+@media (max-width: 1000px), (max-height: 560px) {
+  .app-shell { height: auto; min-height: 100vh; overflow: visible; }
+  .grid {
+    grid-template-rows: none;
+    grid-template-areas:
+      "workforce  events"
+      "schedule   schedule"
+      "personnel  tasks"
+      "countdown  countdown"
+      "quote      quote";
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .card-body { overflow: visible; }
+  .donut-wrap { height: 150px; }
+  .quote-card { min-height: 170px; }
+}
+
+@media (max-width: 680px) {
+  .app-shell { grid-template-columns: 1fr; }
+  .sidebar { flex-direction: row; justify-content: center; padding: 8px 0; }
+  .sidebar-nav { flex-direction: row; }
+  .topbar { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 8px; }
+  .brand { justify-content: center; }
+  .grid {
+    padding: 12px;
+    grid-template-columns: 1fr;
+    grid-template-areas: "workforce" "events" "schedule" "personnel" "tasks" "countdown" "quote";
+  }
+  .title-block h1 { font-size: 17px; letter-spacing: 1px; white-space: normal; }
+}

@@ -1,0 +1,153 @@
+{
+    "visibility": {
+        "workforce": true,
+        "events": true,
+        "schedule": true,
+        "personnel": true,
+        "tasks": true,
+        "countdown": true,
+        "quote": true
+    },
+    "workforce": {
+        "totalSanctioned": 142,
+        "present": 128,
+        "onLeave": 8,
+        "onFieldDuty": 6,
+        "remote": 0
+    },
+    "keyPersonnel": [
+        {
+            "role": "Commanding Officer",
+            "name": "Lt Col A. Sharma"
+        },
+        {
+            "role": "Second-in-Command",
+            "name": "Maj R. Khanna"
+        },
+        {
+            "role": "Officer Maintenance",
+            "name": "Maj S. Mehta"
+        },
+        {
+            "role": "QM",
+            "name": "Capt K. Verma"
+        },
+        {
+            "role": "Training Officer",
+            "name": "Capt P. Singh"
+        },
+        {
+            "role": "Adjutant",
+            "name": "Capt N. Reddy"
+        },
+        {
+            "role": "Signals / IT",
+            "name": "Lt M. Iyer"
+        },
+        {
+            "role": "MT Officer",
+            "name": "Lt S. Gurung"
+        },
+        {
+            "role": "Safety Officer",
+            "name": "Capt A. Khan"
+        }
+    ],
+    "projectStatus": [
+        {
+            "label": "Equipment Servicing",
+            "percent": 80
+        },
+        {
+            "label": "Vehicle Maintenance",
+            "percent": 65
+        },
+        {
+            "label": "Training Targets",
+            "percent": 90
+        },
+        {
+            "label": "Documentation",
+            "percent": 70
+        },
+        {
+            "label": "Infrastructure / Works",
+            "percent": 60
+        }
+    ],
+    "upcomingEvents": [
+        {
+            "date": "2026-10-18",
+            "name": "Commanders' Conference",
+            "tag": "red"
+        },
+        {
+            "date": "2026-10-21",
+            "name": "Annual Inspection (HQ)",
+            "tag": "yellow"
+        },
+        {
+            "date": "2026-10-25",
+            "name": "Technical Training Workshop",
+            "tag": "yellow"
+        },
+        {
+            "date": "2026-10-30",
+            "name": "Equipment Audit",
+            "tag": "aqua"
+        },
+        {
+            "date": "2026-11-03",
+            "name": "Sports Meet",
+            "tag": "blue"
+        }
+    ],
+    "todaySchedule": [
+        {
+            "time": "09:00 - 09:30",
+            "activity": "Morning Brief",
+            "venue": "Conference Hall"
+        },
+        {
+            "time": "10:00 - 11:30",
+            "activity": "Maintenance Review",
+            "venue": "Tech Workshop"
+        },
+        {
+            "time": "12:00 - 13:00",
+            "activity": "Coord Meeting (Ops)",
+            "venue": "Ops Room"
+        },
+        {
+            "time": "14:00 - 15:30",
+            "activity": "Training Planning",
+            "venue": "Conference Hall"
+        },
+        {
+            "time": "16:00 - 17:00",
+            "activity": "Admin Review",
+            "venue": "CO Office"
+        }
+    ],
+    "deadlines": [
+        {
+            "label": "Annual Inspection",
+            "date": "2026-10-21",
+            "tag": "red"
+        },
+        {
+            "label": "Sports Meet",
+            "date": "2026-11-03",
+            "tag": "blue"
+        },
+        {
+            "label": "Raising Day",
+            "date": "2026-11-01",
+            "tag": "aqua"
+        }
+    ],
+    "quoteOfTheDay": {
+        "text": "Discipline today, readiness tomorrow.",
+        "author": "Unit Motto"
+    }
+}

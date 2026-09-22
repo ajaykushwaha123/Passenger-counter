@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>259 FD WKSP COY, EME</title>
+  <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app-shell">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item active" data-tip="Dashboard" data-scroll-top>
+          <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>
+          <span>Dashboard</span>
+        </a>
+        <a href="/admin" class="nav-item" data-tip="Settings" data-open-admin>
+          <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 13a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V19a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.6V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9c.2.7.8 1.2 1.6 1.4H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+          <span>Settings</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main -->
+    <div class="main">
+
+      <!-- Header -->
+      <header class="topbar">
+        <div class="brand">
+          <img class="crest" src="img/logo.png" alt="Unit crest" />
+          <ul class="creed">
+            <li>SKILL</li>
+            <li>SERVICE</li>
+            <li>SUPPORT</li>
+            <li>SUCCESS</li>
+          </ul>
+        </div>
+
+        <div class="title-block">
+          <h1>259 FD WKSP COY, EME</h1>
+          <p class="tagline">ENGINEER &nbsp;|&nbsp; MAINTAIN &nbsp;|&nbsp; ENABLE &nbsp;|&nbsp; FIGHT</p>
+        </div>
+
+        <div class="meta">
+          <div class="clock-box">
+            <span id="clock-date">--</span>
+            <span id="clock-time">--:--</span>
+            <span class="clock-sub"><span id="clock-loc">Unit Lines</span> &middot; <span id="clock-temp">--&deg;C</span></span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content grid -->
+      <main class="grid">
+
+        <!-- Manpower Status -->
+        <section class="card" data-section="workforce" style="grid-area: workforce;">
+          <div class="card-head">
+            <h2><svg class="ic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><circle cx="17.5" cy="8.5" r="2.5"/><path d="M16 14.8c2.6.3 4.4 2 5 5.2"/></svg> Manpower Status</h2>
+          </div>
+          <div class="card-body workforce-body">
+            <div class="workforce-top">
+              <div class="workforce-total">
+                <span class="label">Total Sanctioned Strength</span>
+                <span class="value" id="wf-total">--</span>
+              </div>
+              <div class="donut-wrap">
+                <canvas id="workforceChart"></canvas>
+                <div class="donut-center">
+                  <span id="wf-percent">--%</span>
+                  <small>Present</small>
+                </div>
+              </div>
+            </div>
+            <ul class="legend" id="wf-legend"></ul>
+          </div>
+        </section>
+
+        <!-- Upcoming Events -->
+        <section class="card" data-section="events" style="grid-area: events;">
+          <div class="card-head">
+            <h2><svg class="ic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg> Upcoming Events</h2>
+          </div>
+          <div class="card-body">
+            <table class="data-table" id="events-table">
+              <thead><tr><th>Date</th><th>Event</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Today's Programme -->
+        <section class="card" data-section="schedule" style="grid-area: schedule;">
+          <div class="card-head">
+            <h2><svg class="ic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg> Today's Programme</h2>
+          </div>
+          <div class="card-body">
+            <table class="data-table" id="schedule-table">
+              <thead><tr><th>Time</th><th>Activity</th><th>Location</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Key Appointments -->
+        <section class="card" data-section="personnel" style="grid-area: personnel;">
+          <div class="card-head">
+            <h2><svg class="ic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c1.2-4 3.6-6 7-6s5.8 2 7 6"/></svg> Key Appointments</h2>
+          </div>
+          <div class="card-body">
+            <ul class="personnel-list" id="personnel-list"></ul>
+          </div>
+        </section>
+
+        <!-- Task Status -->
+        <section class="card" data-section="tasks" style="grid-area: tasks;">
+          <div class="card-head">
+            <h2><svg class="ic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10M12 20V4M20 20v-7"/></svg> Task Status</h2>
+          </div>
+          <div class="card-body">
+            <div class="progress-list" id="progress-list"></div>
+          </div>
+        </section>
+
+        <!-- Countdown -->
+        <section class="card" data-section="countdown" style="grid-area: countdown;">
+          <div class="card-head">
+            <h2><svg class="ic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h12M6 21h12M7 3c0 5 5 6 5 9s-5 4-5 9M17 3c0 5-5 6-5 9s5 4 5 9"/></svg> Countdown</h2>
+          </div>
+          <div class="card-body">
+            <div class="countdown-list" id="countdown-list"></div>
+          </div>
+        </section>
+
+        <!-- Quote of the Day -->
+        <section class="card quote-card" data-section="quote" style="grid-area: quote;">
+          <img class="quote-bg" src="img/memorial.jpg" alt="" />
+          <div class="quote-body">
+            <span class="quote-label">Quote of the Day</span>
+            <p id="quote-text">&ldquo;&rdquo;</p>
+            <span id="quote-author" class="quote-author"></span>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="js/chart.umd.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
