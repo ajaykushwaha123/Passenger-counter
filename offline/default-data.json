@@ -4,11 +4,9 @@
         "events": true,
         "schedule": true,
         "personnel": true,
-        "notices": true,
         "tasks": true,
         "countdown": true,
-        "quicklinks": true,
-        "quote": true
+        "image": true
     },
     "workforce": {
         "totalSanctioned": 142,
@@ -20,49 +18,53 @@
     },
     "keyPersonnel": [
         {
-            "role": "Chief Executive Officer",
-            "name": "A. Whitfield"
+            "role": "Commanding Officer",
+            "name": "Lt Col A. Sharma"
         },
         {
-            "role": "Chief Operating Officer",
-            "name": "R. Menon"
+            "role": "Second-in-Command",
+            "name": "Maj R. Khanna"
         },
         {
-            "role": "Finance Director",
-            "name": "S. Kapoor"
+            "role": "Officer Maintenance",
+            "name": "Maj S. Mehta"
         },
         {
-            "role": "Head of Product",
-            "name": "P. Alvarez"
+            "role": "QM",
+            "name": "Capt K. Verma"
         },
         {
-            "role": "Head of Engineering",
-            "name": "N. Reddy"
+            "role": "Training Officer",
+            "name": "Capt P. Singh"
         },
         {
-            "role": "HR Manager",
-            "name": "L. Iyer"
+            "role": "Adjutant",
+            "name": "Capt N. Reddy"
         },
         {
-            "role": "IT / Systems Lead",
-            "name": "S. Gurung"
+            "role": "Signals / IT",
+            "name": "Lt M. Iyer"
         },
         {
-            "role": "Compliance Officer",
-            "name": "A. Khan"
+            "role": "MT Officer",
+            "name": "Lt S. Gurung"
+        },
+        {
+            "role": "Safety Officer",
+            "name": "Capt A. Khan"
         }
     ],
     "projectStatus": [
         {
-            "label": "Client Onboarding",
+            "label": "Equipment Servicing",
             "percent": 80
         },
         {
-            "label": "Platform Migration",
+            "label": "Vehicle Maintenance",
             "percent": 65
         },
         {
-            "label": "Q3 Sales Targets",
+            "label": "Training Targets",
             "percent": 90
         },
         {
@@ -70,78 +72,56 @@
             "percent": 70
         },
         {
-            "label": "Infrastructure Upgrade",
+            "label": "Infrastructure / Works",
             "percent": 60
         }
     ],
     "upcomingEvents": [
         {
-            "date": "2026-09-18",
-            "name": "Board Meeting",
+            "date": "2026-10-18",
+            "name": "Commanders' Conference",
             "location": "Conference Hall",
+            "tag": "red"
+        },
+        {
+            "date": "2026-10-21",
+            "name": "Annual Inspection (HQ)",
+            "location": "Unit Lines",
             "tag": "yellow"
         },
         {
-            "date": "2026-09-21",
-            "name": "Annual Audit (HQ)",
-            "location": "Finance Wing",
-            "tag": "yellow"
-        },
-        {
-            "date": "2026-09-25",
+            "date": "2026-10-25",
             "name": "Technical Training Workshop",
             "location": "Training Area",
             "tag": "yellow"
         },
         {
-            "date": "2026-09-30",
-            "name": "Vendor Contract Review",
+            "date": "2026-10-30",
+            "name": "Equipment Audit",
             "location": "Workshop",
             "tag": "aqua"
         },
         {
-            "date": "2026-10-03",
-            "name": "Town Hall Meet",
-            "location": "Main Grounds",
+            "date": "2026-11-03",
+            "name": "Sports Meet",
+            "location": "Unit Grounds",
             "tag": "blue"
-        }
-    ],
-    "announcements": [
-        {
-            "text": "Submission of Q3 returns by 20 Sep 2026",
-            "priority": "red"
-        },
-        {
-            "text": "All teams to update leave plans for Oct 2026",
-            "priority": "yellow"
-        },
-        {
-            "text": "Asset maintenance logs to be completed by 18 Sep 2026",
-            "priority": "yellow"
-        },
-        {
-            "text": "Wellness check-up camp on 22 Sep 2026",
-            "priority": "aqua"
-        },
-        {
-            "text": "Dress code review next week - maintain formal attire",
-            "priority": "aqua"
         }
     ],
     "todaySchedule": [
         {
             "time": "09:00 - 09:30",
-            "activity": "Morning Stand-up",
+            "activity": "Morning Brief",
             "venue": "Conference Hall"
         },
         {
             "time": "10:00 - 11:30",
-            "activity": "Product Review",
+            "activity": "Maintenance Review",
             "venue": "Tech Workshop"
         },
         {
             "time": "12:00 - 13:00",
-            "activity": "Ops Sync Meeting",
+            "activity": "Coord Meeting (Ops)",
             "venue": "Ops Room"
         },
         {
@@ -152,55 +132,24 @@
         {
             "time": "16:00 - 17:00",
             "activity": "Admin Review",
-            "venue": "CEO Office"
+            "venue": "CO Office"
         }
     ],
     "deadlines": [
         {
-            "label": "Annual Audit",
-            "date": "2026-09-21",
+            "label": "Annual Inspection",
+            "date": "2026-10-21",
             "tag": "red"
         },
         {
-            "label": "Sales Summit",
-            "date": "2026-10-03",
+            "label": "Sports Meet",
+            "date": "2026-11-03",
             "tag": "blue"
         },
         {
-            "label": "Founders' Day",
+            "label": "Raising Day",
             "date": "2026-11-01",
             "tag": "aqua"
         }
-    ],
-    "quickLinks": [
-        {
-            "label": "Company Orders",
-            "icon": "file",
-            "href": "#"
-        },
-        {
-            "label": "Leave Portal",
-            "icon": "plane",
-            "href": "#"
-        },
-        {
-            "label": "SOPs / Manuals",
-            "icon": "book",
-            "href": "#"
-        },
-        {
-            "label": "Forms & Formats",
-            "icon": "clipboard",
-            "href": "#"
-        },
-        {
-            "label": "Emergency Contacts",
-            "icon": "phone",
-            "href": "#"
-        }
-    ],
-    "quoteOfTheDay": {
-        "text": "Discipline today, readiness tomorrow.",
-        "author": "Team Motto"
-    }
+    ]
 }

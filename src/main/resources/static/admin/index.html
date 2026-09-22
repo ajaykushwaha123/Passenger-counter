@@ -13,10 +13,10 @@
 <body class="admin-body">
   <header class="admin-topbar">
     <div class="admin-brand">
-      <div class="brand-mark">N</div>
+      <img class="admin-crest" src="/img/logo.png" alt="Unit crest" />
       <div>
         <div class="admin-title">Dashboard Admin</div>
-        <div class="admin-subtitle">Control what your client sees</div>
+        <div class="admin-subtitle">259 FD WKSP COY, EME</div>
       </div>
     </div>
     <div class="admin-actions">
@@ -31,6 +31,17 @@
   <main class="admin-main" id="admin-sections">
     <p class="loading">Loading dashboard data&hellip;</p>
   </main>
+
+  <dialog id="add-dialog" class="add-dialog">
+    <form method="dialog">
+      <h3 id="add-dialog-title">Add</h3>
+      <div id="add-dialog-fields" class="field-row"></div>
+      <div class="add-dialog-actions">
+        <button value="cancel" class="btn btn-ghost">Cancel</button>
+        <button value="add" class="btn btn-primary">Add</button>
+      </div>
+    </form>
+  </dialog>
 
   <script src="/admin/admin.js"></script>
 </body>

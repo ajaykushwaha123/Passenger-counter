@@ -1,16 +1,15 @@
 // Fixed order - validated for colour-blind separation against the dashboard surface.
 const TAG_COLORS = ['blue', 'aqua', 'yellow', 'magenta', 'violet', 'red', 'gray'];
-const ICON_OPTIONS = ['file', 'plane', 'book', 'clipboard', 'phone'];
 
 const SECTIONS = [
   {
-    key: 'workforce', title: 'Workforce Status', type: 'object', dataKey: 'workforce',
+    key: 'workforce', title: 'Manpower Status', type: 'object', dataKey: 'workforce',
     fields: [
-      { name: 'totalSanctioned', label: 'Total Headcount', type: 'number' },
+      { name: 'totalSanctioned', label: 'Total Sanctioned Strength', type: 'number' },
       { name: 'present', label: 'Present', type: 'number' },
       { name: 'onLeave', label: 'On Leave', type: 'number' },
-      { name: 'onFieldDuty', label: 'Field Duty', type: 'number' },
-      { name: 'remote', label: 'Remote', type: 'number' },
+      { name: 'onFieldDuty', label: 'On TD', type: 'number' },
+      { name: 'remote', label: 'Attached', type: 'number' },
       { name: 'vacant', label: 'Vacant', type: 'number' },
     ],
   },
@@ -20,11 +19,11 @@ const SECTIONS = [
       { name: 'date', label: 'Date', type: 'date' },
       { name: 'name', label: 'Event Name', type: 'text' },
       { name: 'location', label: 'Location', type: 'text' },
-      { name: 'tag', label: 'Color Tag', type: 'select', options: TAG_COLORS },
+      { name: 'tag', label: 'Colour Tag', type: 'select', options: TAG_COLORS },
     ],
   },
   {
-    key: 'schedule', title: "Today's Schedule", type: 'list', dataKey: 'todaySchedule', itemLabel: 'Item',
+    key: 'schedule', title: "Today's Programme", type: 'list', dataKey: 'todaySchedule', itemLabel: 'Item',
     fields: [
       { name: 'time', label: 'Time', type: 'text', placeholder: '09:00 - 09:30' },
       { name: 'activity', label: 'Activity', type: 'text' },
@@ -32,48 +31,30 @@ const SECTIONS = [
     ],
   },
   {
-    key: 'personnel', title: 'Key Personnel', type: 'list', dataKey: 'keyPersonnel', itemLabel: 'Person',
+    key: 'personnel', title: 'Key Appointments', type: 'list', dataKey: 'keyPersonnel', itemLabel: 'Appointment',
     fields: [
-      { name: 'role', label: 'Role', type: 'text' },
+      { name: 'role', label: 'Appointment', type: 'text' },
       { name: 'name', label: 'Name', type: 'text' },
     ],
   },
   {
-    key: 'notices', title: 'Announcements', type: 'list', dataKey: 'announcements', itemLabel: 'Notice',
-    fields: [
-      { name: 'text', label: 'Text', type: 'textarea' },
-      { name: 'priority', label: 'Priority Color', type: 'select', options: TAG_COLORS },
-    ],
-  },
-  {
-    key: 'tasks', title: 'Project Status', type: 'list', dataKey: 'projectStatus', itemLabel: 'Task',
+    key: 'tasks', title: 'Task Status', type: 'list', dataKey: 'projectStatus', itemLabel: 'Task',
     fields: [
       { name: 'label', label: 'Task Name', type: 'text' },
       { name: 'percent', label: 'Percent Complete', type: 'number', min: 0, max: 100 },
     ],
   },
   {
-    key: 'countdown', title: 'Deadlines', type: 'list', dataKey: 'deadlines', itemLabel: 'Deadline',
+    key: 'countdown', title: 'Countdown', type: 'list', dataKey: 'deadlines', itemLabel: 'Countdown',
     fields: [
       { name: 'label', label: 'Label', type: 'text' },
       { name: 'date', label: 'Target Date', type: 'date' },
-      { name: 'tag', label: 'Color', type: 'select', options: TAG_COLORS },
+      { name: 'tag', label: 'Colour', type: 'select', options: TAG_COLORS },
     ],
   },
   {
-    key: 'quicklinks', title: 'Quick Links', type: 'list', dataKey: 'quickLinks', itemLabel: 'Link',
-    fields: [
-      { name: 'label', label: 'Label', type: 'text' },
-      { name: 'icon', label: 'Icon', type: 'select', options: ICON_OPTIONS },
-      { name: 'href', label: 'URL', type: 'text' },
-    ],
-  },
-  {
-    key: 'quote', title: 'Quote of the Day', type: 'object', dataKey: 'quoteOfTheDay',
-    fields: [
-      { name: 'text', label: 'Quote Text', type: 'textarea' },
-      { name: 'author', label: 'Author', type: 'text' },
-    ],
+    key: 'image', title: 'Unit Photo', type: 'toggle',
+    note: 'The photo card at the bottom of the dashboard. Switch it off to hide it.',
   },
 ];
 
@@ -134,6 +115,43 @@ function buildField(f, value) {
   return wrap;
 }
 
+function readValue(input) {
+  if (input.dataset.type === 'number') {
+    const n = parseFloat(input.value);
+    return isNaN(n) ? 0 : n;
+  }
+  return input.value;
+}
+
+/**
+ * Asks for a new entry in a dialog rather than appending a blank row, so adding
+ * to a long list doesn't mean scrolling to the bottom of the page to fill it in.
+ */
+function openAddDialog(section, onAdd) {
+  const dialog = document.getElementById('add-dialog');
+  const fields = document.getElementById('add-dialog-fields');
+  document.getElementById('add-dialog-title').textContent = 'Add ' + section.itemLabel;
+
+  fields.innerHTML = '';
+  section.fields.forEach(f => fields.appendChild(buildField(f, undefined)));
+
+  function handleClose() {
+    dialog.removeEventListener('close', handleClose);
+    if (dialog.returnValue !== 'add') return;
+    const item = {};
+    fields.querySelectorAll('[data-field]').forEach(input => {
+      item[input.dataset.field] = readValue(input);
+    });
+    onAdd(item);
+  }
+
+  dialog.addEventListener('close', handleClose);
+  dialog.returnValue = '';
+  dialog.showModal();
+  const first = fields.querySelector('[data-field]');
+  if (first) first.focus();
+}
+
 function buildObjectForm(section, data) {
   const wrap = document.createElement('div');
   wrap.className = 'field-row';
@@ -145,7 +163,7 @@ function buildListEditor(section, items) {
   const listWrap = document.createElement('div');
   listWrap.className = 'list-editor';
 
-  function addRow(item) {
+  function addRow(item, scrollIntoView) {
     const row = document.createElement('div');
     row.className = 'item-row';
 
@@ -165,17 +183,19 @@ function buildListEditor(section, items) {
     row.appendChild(fieldsWrap);
 
     listWrap.appendChild(row);
+    if (scrollIntoView) row.scrollIntoView({ block: 'nearest' });
   }
 
-  items.forEach(addRow);
+  items.forEach(item => addRow(item, false));
 
   const addBtn = document.createElement('button');
   addBtn.type = 'button';
   addBtn.className = 'add-btn';
   addBtn.textContent = `+ Add ${section.itemLabel}`;
-  addBtn.addEventListener('click', () => addRow(null));
+  addBtn.addEventListener('click', () => openAddDialog(section, item => addRow(item, true)));
 
   const outer = document.createElement('div');
+  outer.className = 'list-outer';
   outer.appendChild(listWrap);
   outer.appendChild(addBtn);
   return outer;
@@ -203,26 +223,25 @@ function renderSections(config) {
     `;
     card.appendChild(head);
 
-    const body = document.createElement('div');
-    body.className = 'admin-card-body';
-    const data = config[section.dataKey];
-    if (section.type === 'object') {
-      body.appendChild(buildObjectForm(section, data || {}));
-    } else {
-      body.appendChild(buildListEditor(section, data || []));
+    if (section.type !== 'toggle') {
+      const body = document.createElement('div');
+      body.className = 'admin-card-body';
+      const data = config[section.dataKey];
+      if (section.type === 'object') {
+        body.appendChild(buildObjectForm(section, data || {}));
+      } else {
+        body.appendChild(buildListEditor(section, data || []));
+      }
+      card.appendChild(body);
+    } else if (section.note) {
+      const note = document.createElement('p');
+      note.className = 'admin-note';
+      note.textContent = section.note;
+      card.appendChild(note);
     }
-    card.appendChild(body);
 
     container.appendChild(card);
   });
-}
-
-function readValue(input) {
-  if (input.dataset.type === 'number') {
-    const n = parseFloat(input.value);
-    return isNaN(n) ? 0 : n;
-  }
-  return input.value;
 }
 
 function collectConfig() {
@@ -232,6 +251,8 @@ function collectConfig() {
     const key = card.dataset.sectionKey;
     const section = SECTIONS.find(s => s.key === key);
     result.visibility[key] = card.querySelector('.visibility-toggle').checked;
+
+    if (section.type === 'toggle') return;
 
     if (section.type === 'object') {
       const obj = {};

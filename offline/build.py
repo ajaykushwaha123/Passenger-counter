@@ -10,7 +10,9 @@ difference is offline-boot.js, which answers the app's API calls from
 localStorage instead of from the backend.
 """
 
+import base64
 import json
+import mimetypes
 import pathlib
 import re
 
@@ -36,6 +38,18 @@ def body_of(html):
 def js_safe(text):
     """Keep an inlined script from ending the <script> block early."""
     return text.replace("</script>", "<\\/script>")
+
+
+def inline_images(html):
+    """Replace img src paths with data URIs - the build has to be one file."""
+    def repl(match):
+        prefix, path = match.group(1), match.group(2)
+        source = STATIC / "img" / pathlib.Path(path).name
+        mime = mimetypes.guess_type(source.name)[0] or "application/octet-stream"
+        encoded = base64.b64encode(source.read_bytes()).decode("ascii")
+        return f'{prefix}"data:{mime};base64,{encoded}"'
+
+    return re.sub(r'(src=)"(/?img/[^"]+)"', repl, html)
 
 
 def main():
@@ -97,6 +111,8 @@ def main():
 </body>
 </html>
 """
+
+    html = inline_images(html)
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(html, encoding="utf-8")

@@ -1,13 +1,13 @@
-# Business Dashboard
+# 259 FD WKSP COY, EME - Unit Dashboard
 
-A modern, responsive business operations dashboard built with **Java + Spring Boot**, served as a static **HTML / CSS / JavaScript** front end with **Chart.js**.
+A unit operations dashboard built with **Java + Spring Boot**, served as a static **HTML / CSS / JavaScript** front end with **Chart.js**. The whole dashboard is designed to sit on one screen with nothing to scroll - anything a card cannot fit scrolls inside that card.
 
-The layout, sidebar, header, card system, color palette, typography and table styling are modeled after a professional ops-dashboard reference design, adapted for general business use.
+The layout, sidebar, header, card system, colour palette, typography and table styling follow a reference design supplied by the unit.
 
 There are two separate pages:
 
-- **`/` — the Dashboard.** Read-only, public, meant for clients to view. No login. It only shows the sections that are turned on in the admin panel.
-- **`/admin` — the Admin Panel.** Lets you turn each dashboard card on/off and edit its content (events, notices, personnel, tasks, deadlines, quick links, quote, workforce numbers). Changes are saved with one **Save Changes** click. **Protected by a username/password** (HTTP Basic — the browser shows its own built-in login popup, no custom login page needed).
+- **`/` — the Dashboard.** Read-only, public, meant to be displayed. No login. It only shows the cards that are turned on in the admin panel, and fits one screen without scrolling.
+- **`/admin` — the Admin Panel.** Lets you turn each dashboard card on/off and edit its content (events, programme, appointments, tasks, countdown, manpower numbers). New entries are added through a dialog rather than a row appended to the bottom of a long list. Changes are saved with one **Save Changes** click. **Protected by a username/password** (HTTP Basic — the browser shows its own built-in login popup, no custom login page needed).
 
 It ships in two forms, from the same source:
 
@@ -49,6 +49,7 @@ src/main/resources/
     css/style.css
     js/app.js
     js/chart.umd.js
+    img/               unit crest and photo
     admin/
       index.html         the admin panel
       admin.css
@@ -79,14 +80,12 @@ Then open:
 
 ## Dashboard sections
 
-- **Workforce Status** — headcount summary with a Chart.js donut chart and legend
-- **Upcoming Events** / **Today's Schedule** — data tables
-- **Key Personnel** — role/name list
-- **Announcements** — priority-tagged notices
-- **Project Status** — progress bars
-- **Deadlines** — live day-countdown tiles
-- **Quick Links** — icon shortcut grid
-- **Quote of the Day**
+- **Manpower Status** - sanctioned strength with a Chart.js donut and legend
+- **Upcoming Events** / **Today's Programme** - data tables
+- **Key Appointments** - appointment/name list
+- **Task Status** - progress bars
+- **Countdown** - live day-countdown tiles
+- **Unit Photo** - the image card at the bottom
 
 Each section can be shown/hidden independently from the admin panel; the dashboard grid simply leaves that card's space empty when hidden.
 
